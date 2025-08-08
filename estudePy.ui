@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>520</width>
-    <height>475</height>
+    <width>460</width>
+    <height>450</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -21,7 +21,7 @@
   </property>
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout_2">
-    <item row="0" column="1">
+    <item row="0" column="0">
      <widget class="QStackedWidget" name="stackedWidget">
       <property name="frameShape">
        <enum>QFrame::Panel</enum>
@@ -30,15 +30,15 @@
        <enum>QFrame::Raised</enum>
       </property>
       <property name="currentIndex">
-       <number>0</number>
+       <number>6</number>
       </property>
       <widget class="QWidget" name="page_geral">
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="tableWidget_7"/>
+         <widget class="QTableWidget" name="geralpresencatableWidget"/>
         </item>
         <item row="1" column="0">
-         <widget class="QTableWidget" name="tableWidget_8"/>
+         <widget class="QTableWidget" name="geraldiscitableWidget"/>
         </item>
         <item row="2" column="0">
          <widget class="QTabWidget" name="anotatabWidget_3">
@@ -59,7 +59,11 @@
             <item row="0" column="0">
              <layout class="QVBoxLayout" name="verticalLayout_9">
               <item>
-               <widget class="QTextBrowser" name="textBrowser_3"/>
+               <widget class="QTextBrowser" name="geralanotatextBrowser">
+                <property name="readOnly">
+                 <bool>false</bool>
+                </property>
+               </widget>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_5">
@@ -77,7 +81,7 @@
                  </spacer>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_8">
+                 <widget class="QPushButton" name="geralanotapushButton">
                   <property name="text">
                    <string>Salvar</string>
                   </property>
@@ -102,10 +106,10 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_7">
               <item>
-               <widget class="QTableWidget" name="tableWidget"/>
+               <widget class="QTableWidget" name="discipresencatableWidget"/>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_6">
+               <widget class="QPushButton" name="discimarcaprespushButton">
                 <property name="text">
                  <string>Marcar Presença</string>
                 </property>
@@ -116,19 +120,19 @@
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_3">
               <item>
-               <widget class="QTableWidget" name="tableWidget_3"/>
+               <widget class="QTableWidget" name="discinotatableWidget"/>
               </item>
               <item>
                <layout class="QHBoxLayout" name="horizontalLayout_2">
                 <item>
-                 <widget class="QPushButton" name="pushButton_7">
+                 <widget class="QPushButton" name="discinovanotapushButton">
                   <property name="text">
                    <string>Nova Prova</string>
                   </property>
                  </widget>
                 </item>
                 <item>
-                 <widget class="QPushButton" name="pushButton_12">
+                 <widget class="QPushButton" name="discieditnotapushButton">
                   <property name="text">
                    <string>Editar Notas</string>
                   </property>
@@ -141,7 +145,31 @@
            </layout>
           </item>
           <item>
-           <widget class="QTableWidget" name="tableWidget_2"/>
+           <widget class="QTableWidget" name="discihorariotableWidget"/>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_14">
+            <item>
+             <widget class="QPushButton" name="discieditardidscipushButton">
+              <property name="text">
+               <string>Editar Disciplina</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_7">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
           </item>
           <item>
            <widget class="QTabWidget" name="anotatabWidget">
@@ -162,7 +190,7 @@
               <item row="0" column="0">
                <layout class="QVBoxLayout" name="verticalLayout_4">
                 <item>
-                 <widget class="QTextBrowser" name="textBrowser"/>
+                 <widget class="QTextBrowser" name="discianotatextBrowser"/>
                 </item>
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout">
@@ -180,7 +208,7 @@
                    </spacer>
                   </item>
                   <item>
-                   <widget class="QPushButton" name="pushButton_4">
+                   <widget class="QPushButton" name="discianotapushButton">
                     <property name="text">
                      <string>Salvar</string>
                     </property>
@@ -219,7 +247,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox"/>
+             <widget class="QSpinBox" name="novnotapesospinBox"/>
             </item>
             <item>
              <widget class="QLabel" name="label_3">
@@ -229,7 +257,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QDoubleSpinBox" name="doubleSpinBox"/>
+             <widget class="QDoubleSpinBox" name="novnotadoubleSpinBox"/>
             </item>
            </layout>
           </item>
@@ -249,14 +277,14 @@
           <item>
            <layout class="QHBoxLayout" name="horizontalLayout_3">
             <item>
-             <widget class="QPushButton" name="pushButton_5">
+             <widget class="QPushButton" name="novnotasalvapushButton">
               <property name="text">
                <string>Salvar</string>
               </property>
              </widget>
             </item>
             <item>
-             <widget class="QPushButton" name="pushButton_9">
+             <widget class="QPushButton" name="novnotaretornapushButton">
               <property name="text">
                <string>Retornar</string>
               </property>
@@ -267,7 +295,7 @@
          </layout>
         </item>
         <item row="0" column="1">
-         <widget class="QTableWidget" name="tableWidget_4"/>
+         <widget class="QTableWidget" name="novnotatableWidget"/>
         </item>
        </layout>
       </widget>
@@ -283,10 +311,10 @@
             <string>Nova Disciplina</string>
            </property>
           </widget>
-          <widget class="QWidget" name="">
+          <widget class="QWidget" name="layoutWidget">
            <layout class="QVBoxLayout" name="verticalLayout_11">
             <item>
-             <widget class="QTableWidget" name="tableWidget_5"/>
+             <widget class="QTableWidget" name="novdiscitableWidget"/>
             </item>
             <item>
              <layout class="QVBoxLayout" name="verticalLayout_10">
@@ -302,7 +330,7 @@
                 <item>
                  <layout class="QHBoxLayout" name="horizontalLayout_4">
                   <item>
-                   <widget class="QSpinBox" name="cargahoraspinBox"/>
+                   <widget class="QSpinBox" name="novdiscicargahoraspinBox"/>
                   </item>
                   <item>
                    <widget class="QLabel" name="label_6">
@@ -338,7 +366,10 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QTimeEdit" name="horariotimeEdit"/>
+                 <widget class="QComboBox" name="novdiscidiacomboBox"/>
+                </item>
+                <item>
+                 <widget class="QTimeEdit" name="novdiscihorariotimeEdit"/>
                 </item>
                 <item>
                  <spacer name="horizontalSpacer_5">
@@ -365,7 +396,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QLineEdit" name="locallineEdit"/>
+                 <widget class="QLineEdit" name="novdiscilocallineEdit"/>
                 </item>
                 <item>
                  <spacer name="horizontalSpacer_4">
@@ -392,7 +423,7 @@
                  </widget>
                 </item>
                 <item>
-                 <widget class="QComboBox" name="tipomediacomboBox"/>
+                 <widget class="QComboBox" name="novdiscitipomediacomboBox"/>
                 </item>
                 <item>
                  <spacer name="horizontalSpacer_6">
@@ -414,14 +445,14 @@
             <item>
              <layout class="QHBoxLayout" name="horizontalLayout_10">
               <item>
-               <widget class="QPushButton" name="pushButton_10">
+               <widget class="QPushButton" name="novdiscisalvapushButton">
                 <property name="text">
                  <string>Salvar</string>
                 </property>
                </widget>
               </item>
               <item>
-               <widget class="QPushButton" name="pushButton_11">
+               <widget class="QPushButton" name="novdisciretornapushButton">
                 <property name="text">
                  <string>Retornar</string>
                 </property>
@@ -436,39 +467,361 @@
        </layout>
       </widget>
       <widget class="QWidget" name="page_editarnotas">
-       <widget class="QTableWidget" name="tableWidget_6">
-        <property name="geometry">
-         <rect>
-          <x>30</x>
-          <y>60</y>
-          <width>101</width>
-          <height>192</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QComboBox" name="comboBox">
-        <property name="geometry">
-         <rect>
-          <x>170</x>
-          <y>80</y>
-          <width>69</width>
-          <height>22</height>
-         </rect>
-        </property>
-       </widget>
-       <widget class="QLabel" name="label_10">
-        <property name="geometry">
-         <rect>
-          <x>180</x>
-          <y>50</y>
-          <width>71</width>
-          <height>16</height>
-         </rect>
-        </property>
-        <property name="text">
-         <string>Editar Nota</string>
-        </property>
-       </widget>
+       <layout class="QGridLayout" name="gridLayout_14">
+        <item row="0" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_27">
+          <item>
+           <widget class="QTableWidget" name="editnotatableWidget_6"/>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_27">
+            <item>
+             <layout class="QVBoxLayout" name="verticalLayout_14">
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_13">
+                <item>
+                 <widget class="QLabel" name="label_10">
+                  <property name="text">
+                   <string>Editar Nota:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <layout class="QHBoxLayout" name="horizontalLayout_13">
+                  <item>
+                   <widget class="QComboBox" name="editnotaselectcomboBox"/>
+                  </item>
+                  <item>
+                   <widget class="QPushButton" name="editnotadeletepushButton">
+                    <property name="text">
+                     <string>Remover Nota</string>
+                    </property>
+                   </widget>
+                  </item>
+                 </layout>
+                </item>
+               </layout>
+              </item>
+              <item>
+               <layout class="QVBoxLayout" name="verticalLayout_12">
+                <item>
+                 <widget class="QLabel" name="label_12">
+                  <property name="text">
+                   <string>Nota:</string>
+                  </property>
+                 </widget>
+                </item>
+                <item>
+                 <widget class="QDoubleSpinBox" name="editnotadoubleSpinBox"/>
+                </item>
+               </layout>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_4">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_12">
+              <item>
+               <widget class="QPushButton" name="editnotsalvapushButton">
+                <property name="text">
+                 <string>Salvar</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="editnotaretornapushButton">
+                <property name="text">
+                 <string>Retornar</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_editardisci">
+       <layout class="QGridLayout" name="gridLayout_15">
+        <item row="0" column="0">
+         <widget class="QLabel" name="label_34">
+          <property name="text">
+           <string>Editar Disciplina</string>
+          </property>
+         </widget>
+        </item>
+        <item row="1" column="0">
+         <widget class="QTableWidget" name="editdiscitableWidget"/>
+        </item>
+        <item row="2" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_34">
+          <item>
+           <widget class="QLabel" name="label_29">
+            <property name="text">
+             <string>Carga Horária:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <layout class="QHBoxLayout" name="horizontalLayout_35">
+            <item>
+             <widget class="QSpinBox" name="editdiscicargahoraspinBox_4"/>
+            </item>
+            <item>
+             <widget class="QLabel" name="label_30">
+              <property name="text">
+               <string>Aulas</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <spacer name="horizontalSpacer_17">
+              <property name="orientation">
+               <enum>Qt::Horizontal</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>40</width>
+                <height>20</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+        <item row="3" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_40">
+          <item>
+           <widget class="QLabel" name="label_35">
+            <property name="text">
+             <string>Presença:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QSpinBox" name="editdiscipresencaspinBox"/>
+          </item>
+          <item>
+           <widget class="QLabel" name="label_36">
+            <property name="text">
+             <string>Aulas</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_21">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="4" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_36">
+          <item>
+           <widget class="QLabel" name="label_31">
+            <property name="text">
+             <string>Horário:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="editdiscidiacomboBox"/>
+          </item>
+          <item>
+           <widget class="QTimeEdit" name="editdiscihorariotimeEdit"/>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_18">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="5" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_37">
+          <item>
+           <widget class="QLabel" name="label_32">
+            <property name="text">
+             <string>Local:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QLineEdit" name="editdiscilocallineEdit"/>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_19">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="6" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_38">
+          <item>
+           <widget class="QLabel" name="label_33">
+            <property name="text">
+             <string>Tipo de Média:</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QComboBox" name="editdiscitipomediacomboBox"/>
+          </item>
+          <item>
+           <spacer name="horizontalSpacer_20">
+            <property name="orientation">
+             <enum>Qt::Horizontal</enum>
+            </property>
+            <property name="sizeHint" stdset="0">
+             <size>
+              <width>40</width>
+              <height>20</height>
+             </size>
+            </property>
+           </spacer>
+          </item>
+         </layout>
+        </item>
+        <item row="7" column="0">
+         <layout class="QHBoxLayout" name="horizontalLayout_39">
+          <item>
+           <widget class="QPushButton" name="editdiscisalvapushButton">
+            <property name="text">
+             <string>Salvar</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QPushButton" name="editdisciretornapushButton">
+            <property name="text">
+             <string>Retornar</string>
+            </property>
+           </widget>
+          </item>
+         </layout>
+        </item>
+       </layout>
+      </widget>
+      <widget class="QWidget" name="page_marcpres">
+       <layout class="QGridLayout" name="gridLayout_8">
+        <item row="0" column="0" rowspan="2" colspan="2">
+         <layout class="QVBoxLayout" name="verticalLayout_16">
+          <item>
+           <widget class="QLabel" name="label_13">
+            <property name="text">
+             <string>Marcar Presença</string>
+            </property>
+           </widget>
+          </item>
+          <item>
+           <widget class="QTableWidget" name="marcprestableWidget"/>
+          </item>
+          <item>
+           <layout class="QVBoxLayout" name="verticalLayout_15">
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_15">
+              <item>
+               <widget class="QLabel" name="label_15">
+                <property name="text">
+                 <string>N° de Aulas: </string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QSpinBox" name="marcpresspinBox"/>
+              </item>
+             </layout>
+            </item>
+            <item>
+             <spacer name="verticalSpacer_3">
+              <property name="orientation">
+               <enum>Qt::Vertical</enum>
+              </property>
+              <property name="sizeHint" stdset="0">
+               <size>
+                <width>20</width>
+                <height>40</height>
+               </size>
+              </property>
+             </spacer>
+            </item>
+            <item>
+             <layout class="QHBoxLayout" name="horizontalLayout_16">
+              <item>
+               <spacer name="horizontalSpacer_8">
+                <property name="orientation">
+                 <enum>Qt::Horizontal</enum>
+                </property>
+                <property name="sizeHint" stdset="0">
+                 <size>
+                  <width>40</width>
+                  <height>20</height>
+                 </size>
+                </property>
+               </spacer>
+              </item>
+              <item>
+               <widget class="QPushButton" name="marcpressalvapushButton">
+                <property name="text">
+                 <string>Salvar</string>
+                </property>
+               </widget>
+              </item>
+              <item>
+               <widget class="QPushButton" name="marcpresretornapushButton">
+                <property name="text">
+                 <string>Retornar</string>
+                </property>
+               </widget>
+              </item>
+             </layout>
+            </item>
+           </layout>
+          </item>
+         </layout>
+        </item>
+       </layout>
       </widget>
      </widget>
     </item>
@@ -479,7 +832,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>520</width>
+     <width>460</width>
      <height>21</height>
     </rect>
    </property>
@@ -506,41 +859,41 @@
      <item>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
-        <widget class="QPushButton" name="pushButton">
+        <widget class="QPushButton" name="novadiscipushButton">
          <property name="text">
-          <string>Novo Semestre</string>
+          <string>Nova Disciplina</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_2">
+        <widget class="QPushButton" name="GeralpushButton">
          <property name="text">
           <string>Geral</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QListWidget" name="listWidget">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="MinimumExpanding" vsizetype="MinimumExpanding">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
-         <property name="maximumSize">
-          <size>
-           <width>80</width>
-           <height>16777215</height>
-          </size>
+        <widget class="QLabel" name="label_11">
+         <property name="text">
+          <string>Disciplinas:</string>
          </property>
         </widget>
        </item>
        <item>
-        <widget class="QPushButton" name="pushButton_3">
-         <property name="text">
-          <string>Configurações</string>
+        <widget class="QComboBox" name="listDiscicomboBox"/>
+       </item>
+       <item>
+        <spacer name="verticalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Vertical</enum>
          </property>
-        </widget>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>20</width>
+           <height>40</height>
+          </size>
+         </property>
+        </spacer>
        </item>
       </layout>
      </item>
