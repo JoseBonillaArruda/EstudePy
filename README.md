@@ -1,4 +1,4 @@
-# FaculPy
+# EstudePy
 Nome do projeto: EstudePy
 
 
