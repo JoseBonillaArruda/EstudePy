@@ -14,7 +14,8 @@ def IsTable(table_name: str):
 #Classe principal:
 class DB_connect():
           def __init__(self) -> None:
-                  self.con = connect("SoftwareDB.db")
+                  self.con = connect("teste.db")
+                  #self.con = connect("SoftwareDB.db")
                   self.cursor = self.con.cursor()
 
 
@@ -39,7 +40,7 @@ class DB_connect():
                                         horario TEXT NOT NULL
                                 );
                         """)
-                        self.con.commit()
+                        #self.con.commit()
 
                 #Cria a Tabela de Notas:
                 Table = IsTable("notas")
@@ -67,8 +68,8 @@ class DB_connect():
                         self.con.commit()
                 
 
-          def novaDisciplina(self, disciplina: str, tipoMedia: int, cargaHoraria: int, horario: str, local="não Informado", qtdPresenca=0, media=0.0) -> None:
-
+          def novaDisciplina(self, disciplina: str, tipoMedia: str, cargaHoraria: int, horario: str, local="não Informado", qtdPresenca=0, media=0.0) -> None:
+                self.cursor.execute(f"INSERT INTO disciplinas(disciplina, media, tipo_media, carga_horaria, qtd_presenca, local, horario) VALUES (?, ?, ?, ?, ?, ?, ?)", (disciplina, media, tipoMedia, cargaHoraria, qtdPresenca, local, horario))
                 self.con.commit()
 
           def marcarPresenca(self) -> None:
@@ -83,4 +84,4 @@ if __name__ == "__main__":
           
           #Area de Teste:
           db.iniciarBD()
-          #db.novaDisciplina(disciplina="GGG", tipoMedia=1, cargaHoraria=25, horario=0)
+          db.novaDisciplina(disciplina="Matematica", tipoMedia="aritmetica", cargaHoraria=25, horario="07:00")
