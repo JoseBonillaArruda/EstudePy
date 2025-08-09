@@ -19,15 +19,15 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QDockWidget, QDoubleSpin
     QFrame, QGridLayout, QHBoxLayout, QHeaderView,
     QLabel, QLineEdit, QMainWindow, QMenuBar,
     QPushButton, QSizePolicy, QSpacerItem, QSpinBox,
-    QSplitter, QStackedWidget, QStatusBar, QTabWidget,
-    QTableWidget, QTableWidgetItem, QTextBrowser, QTimeEdit,
-    QVBoxLayout, QWidget)
+    QStackedWidget, QStatusBar, QTabWidget, QTableWidget,
+    QTableWidgetItem, QTextBrowser, QTimeEdit, QVBoxLayout,
+    QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(520, 475)
+        MainWindow.resize(401, 450)
         MainWindow.setDockNestingEnabled(False)
         MainWindow.setDockOptions(QMainWindow.AllowTabbedDocks|QMainWindow.AnimatedDocks|QMainWindow.ForceTabbedDocks)
         self.centralwidget = QWidget(MainWindow)
@@ -146,6 +146,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_8.addWidget(self.discihorariotableWidget)
 
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.discieditardidscipushButton = QPushButton(self.page_disciplina)
+        self.discieditardidscipushButton.setObjectName(u"discieditardidscipushButton")
+
+        self.horizontalLayout_14.addWidget(self.discieditardidscipushButton)
+
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_14.addItem(self.horizontalSpacer_7)
+
+
+        self.verticalLayout_8.addLayout(self.horizontalLayout_14)
+
         self.anotatabWidget = QTabWidget(self.page_disciplina)
         self.anotatabWidget.setObjectName(u"anotatabWidget")
         self.anotatabWidget.setTabsClosable(False)
@@ -254,39 +268,48 @@ class Ui_MainWindow(object):
         self.page_novdisci.setObjectName(u"page_novdisci")
         self.gridLayout_5 = QGridLayout(self.page_novdisci)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.splitter_2 = QSplitter(self.page_novdisci)
-        self.splitter_2.setObjectName(u"splitter_2")
-        self.splitter_2.setOrientation(Qt.Vertical)
-        self.label_4 = QLabel(self.splitter_2)
+        self.label_4 = QLabel(self.page_novdisci)
         self.label_4.setObjectName(u"label_4")
-        self.splitter_2.addWidget(self.label_4)
-        self.layoutWidget = QWidget(self.splitter_2)
-        self.layoutWidget.setObjectName(u"layoutWidget")
-        self.verticalLayout_11 = QVBoxLayout(self.layoutWidget)
-        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
-        self.verticalLayout_11.setContentsMargins(0, 0, 0, 0)
-        self.novdiscitableWidget = QTableWidget(self.layoutWidget)
+
+        self.gridLayout_5.addWidget(self.label_4, 0, 0, 1, 1)
+
+        self.novdiscitableWidget = QTableWidget(self.page_novdisci)
         self.novdiscitableWidget.setObjectName(u"novdiscitableWidget")
 
-        self.verticalLayout_11.addWidget(self.novdiscitableWidget)
+        self.gridLayout_5.addWidget(self.novdiscitableWidget, 1, 0, 1, 1)
+
+        self.horizontalLayout_17 = QHBoxLayout()
+        self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
+        self.label_14 = QLabel(self.page_novdisci)
+        self.label_14.setObjectName(u"label_14")
+
+        self.horizontalLayout_17.addWidget(self.label_14)
+
+        self.novdiscinomelineEdit = QLineEdit(self.page_novdisci)
+        self.novdiscinomelineEdit.setObjectName(u"novdiscinomelineEdit")
+
+        self.horizontalLayout_17.addWidget(self.novdiscinomelineEdit)
+
+
+        self.gridLayout_5.addLayout(self.horizontalLayout_17, 2, 0, 1, 1)
 
         self.verticalLayout_10 = QVBoxLayout()
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
         self.horizontalLayout_7 = QHBoxLayout()
         self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
-        self.label_5 = QLabel(self.layoutWidget)
+        self.label_5 = QLabel(self.page_novdisci)
         self.label_5.setObjectName(u"label_5")
 
         self.horizontalLayout_7.addWidget(self.label_5)
 
         self.horizontalLayout_4 = QHBoxLayout()
         self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
-        self.novdiscicargahoraspinBox = QSpinBox(self.layoutWidget)
+        self.novdiscicargahoraspinBox = QSpinBox(self.page_novdisci)
         self.novdiscicargahoraspinBox.setObjectName(u"novdiscicargahoraspinBox")
 
         self.horizontalLayout_4.addWidget(self.novdiscicargahoraspinBox)
 
-        self.label_6 = QLabel(self.layoutWidget)
+        self.label_6 = QLabel(self.page_novdisci)
         self.label_6.setObjectName(u"label_6")
 
         self.horizontalLayout_4.addWidget(self.label_6)
@@ -303,17 +326,17 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_6 = QHBoxLayout()
         self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
-        self.label_7 = QLabel(self.layoutWidget)
+        self.label_7 = QLabel(self.page_novdisci)
         self.label_7.setObjectName(u"label_7")
 
         self.horizontalLayout_6.addWidget(self.label_7)
 
-        self.novdiscidiacomboBox = QComboBox(self.layoutWidget)
+        self.novdiscidiacomboBox = QComboBox(self.page_novdisci)
         self.novdiscidiacomboBox.setObjectName(u"novdiscidiacomboBox")
 
         self.horizontalLayout_6.addWidget(self.novdiscidiacomboBox)
 
-        self.novdiscihorariotimeEdit = QTimeEdit(self.layoutWidget)
+        self.novdiscihorariotimeEdit = QTimeEdit(self.page_novdisci)
         self.novdiscihorariotimeEdit.setObjectName(u"novdiscihorariotimeEdit")
 
         self.horizontalLayout_6.addWidget(self.novdiscihorariotimeEdit)
@@ -327,12 +350,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_8 = QHBoxLayout()
         self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
-        self.label_8 = QLabel(self.layoutWidget)
+        self.label_8 = QLabel(self.page_novdisci)
         self.label_8.setObjectName(u"label_8")
 
         self.horizontalLayout_8.addWidget(self.label_8)
 
-        self.novdiscilocallineEdit = QLineEdit(self.layoutWidget)
+        self.novdiscilocallineEdit = QLineEdit(self.page_novdisci)
         self.novdiscilocallineEdit.setObjectName(u"novdiscilocallineEdit")
 
         self.horizontalLayout_8.addWidget(self.novdiscilocallineEdit)
@@ -346,12 +369,12 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_9 = QHBoxLayout()
         self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
-        self.label_9 = QLabel(self.layoutWidget)
+        self.label_9 = QLabel(self.page_novdisci)
         self.label_9.setObjectName(u"label_9")
 
         self.horizontalLayout_9.addWidget(self.label_9)
 
-        self.novdiscitipomediacomboBox = QComboBox(self.layoutWidget)
+        self.novdiscitipomediacomboBox = QComboBox(self.page_novdisci)
         self.novdiscitipomediacomboBox.setObjectName(u"novdiscitipomediacomboBox")
 
         self.horizontalLayout_9.addWidget(self.novdiscitipomediacomboBox)
@@ -364,26 +387,22 @@ class Ui_MainWindow(object):
         self.verticalLayout_10.addLayout(self.horizontalLayout_9)
 
 
-        self.verticalLayout_11.addLayout(self.verticalLayout_10)
+        self.gridLayout_5.addLayout(self.verticalLayout_10, 3, 0, 1, 1)
 
         self.horizontalLayout_10 = QHBoxLayout()
         self.horizontalLayout_10.setObjectName(u"horizontalLayout_10")
-        self.novdiscisalvapushButton = QPushButton(self.layoutWidget)
+        self.novdiscisalvapushButton = QPushButton(self.page_novdisci)
         self.novdiscisalvapushButton.setObjectName(u"novdiscisalvapushButton")
 
         self.horizontalLayout_10.addWidget(self.novdiscisalvapushButton)
 
-        self.novdisciretornapushButton = QPushButton(self.layoutWidget)
+        self.novdisciretornapushButton = QPushButton(self.page_novdisci)
         self.novdisciretornapushButton.setObjectName(u"novdisciretornapushButton")
 
         self.horizontalLayout_10.addWidget(self.novdisciretornapushButton)
 
 
-        self.verticalLayout_11.addLayout(self.horizontalLayout_10)
-
-        self.splitter_2.addWidget(self.layoutWidget)
-
-        self.gridLayout_5.addWidget(self.splitter_2, 0, 0, 1, 1)
+        self.gridLayout_5.addLayout(self.horizontalLayout_10, 4, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.page_novdisci)
         self.page_editarnotas = QWidget()
@@ -472,17 +491,32 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_editarnotas)
         self.page_editardisci = QWidget()
         self.page_editardisci.setObjectName(u"page_editardisci")
-        self.gridLayout_15 = QGridLayout(self.page_editardisci)
-        self.gridLayout_15.setObjectName(u"gridLayout_15")
+        self.gridLayout_9 = QGridLayout(self.page_editardisci)
+        self.gridLayout_9.setObjectName(u"gridLayout_9")
         self.label_34 = QLabel(self.page_editardisci)
         self.label_34.setObjectName(u"label_34")
 
-        self.gridLayout_15.addWidget(self.label_34, 0, 0, 1, 1)
+        self.gridLayout_9.addWidget(self.label_34, 0, 0, 1, 1)
 
         self.editdiscitableWidget = QTableWidget(self.page_editardisci)
         self.editdiscitableWidget.setObjectName(u"editdiscitableWidget")
 
-        self.gridLayout_15.addWidget(self.editdiscitableWidget, 1, 0, 1, 1)
+        self.gridLayout_9.addWidget(self.editdiscitableWidget, 1, 0, 1, 1)
+
+        self.horizontalLayout_18 = QHBoxLayout()
+        self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
+        self.label_16 = QLabel(self.page_editardisci)
+        self.label_16.setObjectName(u"label_16")
+
+        self.horizontalLayout_18.addWidget(self.label_16)
+
+        self.editdiscinomelineEdit = QLineEdit(self.page_editardisci)
+        self.editdiscinomelineEdit.setObjectName(u"editdiscinomelineEdit")
+
+        self.horizontalLayout_18.addWidget(self.editdiscinomelineEdit)
+
+
+        self.gridLayout_9.addLayout(self.horizontalLayout_18, 2, 0, 1, 1)
 
         self.horizontalLayout_34 = QHBoxLayout()
         self.horizontalLayout_34.setObjectName(u"horizontalLayout_34")
@@ -511,7 +545,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_34.addLayout(self.horizontalLayout_35)
 
 
-        self.gridLayout_15.addLayout(self.horizontalLayout_34, 2, 0, 1, 1)
+        self.gridLayout_9.addLayout(self.horizontalLayout_34, 3, 0, 1, 1)
 
         self.horizontalLayout_40 = QHBoxLayout()
         self.horizontalLayout_40.setObjectName(u"horizontalLayout_40")
@@ -535,7 +569,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_40.addItem(self.horizontalSpacer_21)
 
 
-        self.gridLayout_15.addLayout(self.horizontalLayout_40, 3, 0, 1, 1)
+        self.gridLayout_9.addLayout(self.horizontalLayout_40, 4, 0, 1, 1)
 
         self.horizontalLayout_36 = QHBoxLayout()
         self.horizontalLayout_36.setObjectName(u"horizontalLayout_36")
@@ -559,7 +593,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_36.addItem(self.horizontalSpacer_18)
 
 
-        self.gridLayout_15.addLayout(self.horizontalLayout_36, 4, 0, 1, 1)
+        self.gridLayout_9.addLayout(self.horizontalLayout_36, 5, 0, 1, 1)
 
         self.horizontalLayout_37 = QHBoxLayout()
         self.horizontalLayout_37.setObjectName(u"horizontalLayout_37")
@@ -578,7 +612,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_37.addItem(self.horizontalSpacer_19)
 
 
-        self.gridLayout_15.addLayout(self.horizontalLayout_37, 5, 0, 1, 1)
+        self.gridLayout_9.addLayout(self.horizontalLayout_37, 6, 0, 1, 1)
 
         self.horizontalLayout_38 = QHBoxLayout()
         self.horizontalLayout_38.setObjectName(u"horizontalLayout_38")
@@ -597,7 +631,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_38.addItem(self.horizontalSpacer_20)
 
 
-        self.gridLayout_15.addLayout(self.horizontalLayout_38, 6, 0, 1, 1)
+        self.gridLayout_9.addLayout(self.horizontalLayout_38, 7, 0, 1, 1)
 
         self.horizontalLayout_39 = QHBoxLayout()
         self.horizontalLayout_39.setObjectName(u"horizontalLayout_39")
@@ -612,16 +646,79 @@ class Ui_MainWindow(object):
         self.horizontalLayout_39.addWidget(self.editdisciretornapushButton)
 
 
-        self.gridLayout_15.addLayout(self.horizontalLayout_39, 7, 0, 1, 1)
+        self.gridLayout_9.addLayout(self.horizontalLayout_39, 8, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.page_editardisci)
+        self.page_marcpres = QWidget()
+        self.page_marcpres.setObjectName(u"page_marcpres")
+        self.gridLayout_8 = QGridLayout(self.page_marcpres)
+        self.gridLayout_8.setObjectName(u"gridLayout_8")
+        self.verticalLayout_16 = QVBoxLayout()
+        self.verticalLayout_16.setObjectName(u"verticalLayout_16")
+        self.label_13 = QLabel(self.page_marcpres)
+        self.label_13.setObjectName(u"label_13")
+
+        self.verticalLayout_16.addWidget(self.label_13)
+
+        self.marcprestableWidget = QTableWidget(self.page_marcpres)
+        self.marcprestableWidget.setObjectName(u"marcprestableWidget")
+
+        self.verticalLayout_16.addWidget(self.marcprestableWidget)
+
+        self.verticalLayout_15 = QVBoxLayout()
+        self.verticalLayout_15.setObjectName(u"verticalLayout_15")
+        self.horizontalLayout_15 = QHBoxLayout()
+        self.horizontalLayout_15.setObjectName(u"horizontalLayout_15")
+        self.label_15 = QLabel(self.page_marcpres)
+        self.label_15.setObjectName(u"label_15")
+
+        self.horizontalLayout_15.addWidget(self.label_15)
+
+        self.marcpresspinBox = QSpinBox(self.page_marcpres)
+        self.marcpresspinBox.setObjectName(u"marcpresspinBox")
+
+        self.horizontalLayout_15.addWidget(self.marcpresspinBox)
+
+
+        self.verticalLayout_15.addLayout(self.horizontalLayout_15)
+
+        self.verticalSpacer_3 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
+
+        self.verticalLayout_15.addItem(self.verticalSpacer_3)
+
+        self.horizontalLayout_16 = QHBoxLayout()
+        self.horizontalLayout_16.setObjectName(u"horizontalLayout_16")
+        self.horizontalSpacer_8 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_16.addItem(self.horizontalSpacer_8)
+
+        self.marcpressalvapushButton = QPushButton(self.page_marcpres)
+        self.marcpressalvapushButton.setObjectName(u"marcpressalvapushButton")
+
+        self.horizontalLayout_16.addWidget(self.marcpressalvapushButton)
+
+        self.marcpresretornapushButton = QPushButton(self.page_marcpres)
+        self.marcpresretornapushButton.setObjectName(u"marcpresretornapushButton")
+
+        self.horizontalLayout_16.addWidget(self.marcpresretornapushButton)
+
+
+        self.verticalLayout_15.addLayout(self.horizontalLayout_16)
+
+
+        self.verticalLayout_16.addLayout(self.verticalLayout_15)
+
+
+        self.gridLayout_8.addLayout(self.verticalLayout_16, 0, 0, 2, 2)
+
+        self.stackedWidget.addWidget(self.page_marcpres)
 
         self.gridLayout_2.addWidget(self.stackedWidget, 0, 0, 1, 1)
 
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 520, 21))
+        self.menubar.setGeometry(QRect(0, 0, 401, 21))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -684,6 +781,7 @@ class Ui_MainWindow(object):
         self.discimarcaprespushButton.setText(QCoreApplication.translate("MainWindow", u"Marcar Presen\u00e7a", None))
         self.discinovanotapushButton.setText(QCoreApplication.translate("MainWindow", u"Nova Prova", None))
         self.discieditnotapushButton.setText(QCoreApplication.translate("MainWindow", u"Editar Notas", None))
+        self.discieditardidscipushButton.setText(QCoreApplication.translate("MainWindow", u"Editar Disciplina", None))
         self.discianotapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.anotatabWidget.setTabText(self.anotatabWidget.indexOf(self.tab_1), QCoreApplication.translate("MainWindow", u"Anota\u00e7\u00f5es", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Nova Prova", None))
@@ -692,6 +790,7 @@ class Ui_MainWindow(object):
         self.novnotasalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.novnotaretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Nova Disciplina", None))
+        self.label_14.setText(QCoreApplication.translate("MainWindow", u"Disciplina:", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Carga Hor\u00e1ria:", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Horas Aulas", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Hor\u00e1rio:", None))
@@ -705,6 +804,7 @@ class Ui_MainWindow(object):
         self.editnotsalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.editnotaretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"Editar Disciplina", None))
+        self.label_16.setText(QCoreApplication.translate("MainWindow", u"Disciplina:", None))
         self.label_29.setText(QCoreApplication.translate("MainWindow", u"Carga Hor\u00e1ria:", None))
         self.label_30.setText(QCoreApplication.translate("MainWindow", u"Aulas", None))
         self.label_35.setText(QCoreApplication.translate("MainWindow", u"Presen\u00e7a:", None))
@@ -714,6 +814,10 @@ class Ui_MainWindow(object):
         self.label_33.setText(QCoreApplication.translate("MainWindow", u"Tipo de M\u00e9dia:", None))
         self.editdiscisalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.editdisciretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
+        self.label_13.setText(QCoreApplication.translate("MainWindow", u"Marcar Presen\u00e7a", None))
+        self.label_15.setText(QCoreApplication.translate("MainWindow", u"N\u00b0 de Aulas: ", None))
+        self.marcpressalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
+        self.marcpresretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
 #if QT_CONFIG(tooltip)
         self.sidedockWidget.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))
 #endif // QT_CONFIG(tooltip)

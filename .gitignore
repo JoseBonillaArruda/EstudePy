@@ -209,3 +209,5 @@ __marimo__/
 # ingonrar arquivos criado para testes:
 teste.db
 teste.sqbpro
+compileui.bat
+SoftwareDB.db
