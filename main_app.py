@@ -77,8 +77,11 @@ class MainWindow(QMainWindow):
     def Lista_Disciplina(self):
         self.ui.listDiscicomboBox.clear()
         self.ui.listDiscicomboBox.addItem('Disciplinas...')
-        #TODO disci_list a partir do banco de dados
-        #self.ui.listDiscicomboBox.addItems(disci_list)
+        disciplinas = db.listarDisciplinas()
+        if disciplinas
+        for disciplina in disciplinas:
+            self.ui.listDiscicomboBox.addItem(f"{disciplina[0]} - {disciplina[1]}")
+        
 
 
 if __name__ == '__main__':
