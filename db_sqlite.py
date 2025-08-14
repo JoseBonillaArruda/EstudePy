@@ -34,7 +34,7 @@ class DB_connect():
                     disciplina TEXT NOT NULL UNIQUE,
                     media REAL,
                     tipo_media TEXT NOT NULL,
-                    carga_horaria INTEIRO NOT NULL,
+                    carga_horaria INTEGER NOT NULL,
                     qtd_presenca INTEGER NOT NULL,
                     local TEXT NOT NULL,
                     horario TEXT NOT NULL
