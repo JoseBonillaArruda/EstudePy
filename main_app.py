@@ -35,6 +35,7 @@ class MainWindow(QMainWindow):
         self.ui.discieditnotapushButton.clicked.connect(self.editnota_page)
         self.ui.discieditardidscipushButton.clicked.connect(self.editdisci_page)
         self.ui.novdiscisalvapushButton.clicked.connect(self.reg_nova_disciplina)
+        self.ui.listDiscicomboBox.currentIndexChanged.connect(self.disci_page)
 
         daylist = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado']
         self.ui.novdiscidiacomboBox.addItems(daylist)
@@ -49,6 +50,8 @@ class MainWindow(QMainWindow):
         local = self.ui.novdiscilocallineEdit.text()
         tipomedia = self.ui.novdiscitipomediacomboBox.currentText()
         db.novaDisciplina(disciplina,tipomedia,carga,horario,local)
+        self.Lista_Disciplina()
+        self.ui.listDiscicomboBox.setCurrentIndex(self.ui.listDiscicomboBox.count() - 1)
         self.disci_page()
 
 
@@ -56,6 +59,16 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def disci_page(self):
+        disci = db.getDisciplinaPorId(self.ui.listDiscicomboBox.currentIndex())
+        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),(disci.get('qtd_presenca')/disci.get('carga_horaria')*100)]
+        self.ui.discipresencatableWidget.setRowCount(3)
+        self.ui.discipresencatableWidget.setColumnCount(1)
+        self.ui.discipresencatableWidget.setHorizontalHeaderLabels([''])
+        self.ui.discipresencatableWidget.setVerticalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
+        for i in range(3):
+            item = QTableWidgetItem(str(disci_pres[i]))
+            self.ui.discipresencatableWidget.setItem(i, 0, item)
+            
         self.ui.stackedWidget.setCurrentIndex(1)
 
     def novnota_page(self):
@@ -69,8 +82,17 @@ class MainWindow(QMainWindow):
     
     def editdisci_page(self):
         self.ui.stackedWidget.setCurrentIndex(5)
-    
+
+
     def marcpres_page(self):
+        disci = db.getDisciplinaPorId(self.ui.listDiscicomboBox.currentIndex())
+        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),(disci.get('qtd_presenca')/disci.get('carga_horaria')*100)]
+        self.ui.marcprestableWidget.setRowCount(1)
+        self.ui.marcprestableWidget.setColumnCount(3)
+        self.ui.marcprestableWidget.setHorizontalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
+        for j in range(3):
+            item = QTableWidgetItem(str(disci_pres[j]))
+            self.ui.marcprestableWidget.setItem(0, j, item)
         self.ui.stackedWidget.setCurrentIndex(6)
 
 
@@ -78,7 +100,6 @@ class MainWindow(QMainWindow):
         self.ui.listDiscicomboBox.clear()
         self.ui.listDiscicomboBox.addItem('Disciplinas...')
         disciplinas = db.listarDisciplinas()
-        if disciplinas
         for disciplina in disciplinas:
             self.ui.listDiscicomboBox.addItem(f"{disciplina[0]} - {disciplina[1]}")
         
