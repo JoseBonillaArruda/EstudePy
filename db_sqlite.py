@@ -118,51 +118,24 @@ class DB_connect():
     def editarDisciplina(self, disciplina, novoNome=None, novaMedia=None, novoTipoMedia=None, novaCargaHoraria=None, nova_qtd_presenca=None, novoLocal=None, novoHorario=None):
         #Edita as informações necessarias da disciplina
 
+        valores = [novoNome, novaMedia, novoHorario, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario]
+        for valores in valores:
+            print(valores)
+
         self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
         id_disciplina = self.cursor.fetchone()[0]
 
         self.cursor.execute("SELECT * FROM disciplinas WHERE id=?", (id_disciplina,))
         print(self.cursor.fetchall()[0])
 
-        
-
-        # self.cursor.execute("UPDATE disciplinas SET disciplina=?, media=?, tipo_media=?, carga_horaria=?, qtd_presenca=?, local=?, horario=? WHERE id=?;",
-        #     (novoNome, novaMedia, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario, id_disciplina))
-        # self.con.commit()
-
-        # if novaMedia:
-        #     self.cursor.execute("UPDATE disciplinas SET media=? WHERE id=?;", (novaMedia, id_disciplina))
-        #     self.con.commit()
-
-        # if novoTipoMedia:
-        #     self.cursor.execute("UPDATE disciplinas SET tipo_media=? WHERE id=?;", (novoTipoMedia, id_disciplina))
-        #     self.con.commit()
-
-        # if novaCargaHoraria:
-        #     self.cursor.execute("UPDATE disciplinas SET carga_horaria=? WHERE id=?;", (novaCargaHoraria, id_disciplina))
-        #     self.con.commit()
-
-        # if nova_qtd_presenca:
-        #     self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE id=?;", (nova_qtd_presenca, id_disciplina))
-        #     self.con.commit()
-
-        # if novoLocal:
-        #     self.cursor.execute("UPDATE disciplinas SET local=? WHERE id=?;", (novoLocal, id_disciplina))
-        #     self.con.commit()
-
-        # if novoHorario:
-        #     self.cursor.execute("UPDATE disciplinas SET horario=? WHERE id=?;", (novoHorario, id_disciplina))
-        #     self.con.commit()
             
 
-    def marcarPresenca(self, disciplina: str) -> str:
+    def marcarPresenca(self, disciplina: str, valor: int) -> str:
         #Atualiza a quantidade de presença para uma disciplina específica.
         try:
-            self.cursor.execute("SELECT qtd_presenca FROM disciplinas WHERE disciplina=?;", (disciplina,))
-            qtd_presença = self.cursor.fetchone()[0]
-            qtd_presença += 1
-            self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE disciplina=?;", (qtd_presença, disciplina,))
+            self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE disciplina=?;", (valor, disciplina,))
             self.con.commit()
+            print("Teste")
         except TypeError as e:
             print(f"Disciplina {disciplina} não encontrado\nErro: {e}")
 
@@ -231,7 +204,7 @@ class DB_connect():
     def getDisciplinaPorId(self, id_disciplina: int) -> dict:
             #Retorna as informações da disciplina em formato de dicionário.
             self.cursor.execute(
-                "SELECT * FROM disciplinas WHERE id = ?", (id_disciplina))
+                "SELECT * FROM disciplinas WHERE id = ?", (id_disciplina,))
             row = self.cursor.fetchone()
             if row:
                 columns = [desc[0] for desc in self.cursor.description]
@@ -253,11 +226,11 @@ if __name__ == "__main__":
     db.iniciarBD()
     #db.novaDisciplina(disciplina="História", tipoMedia="aritmetica", cargaHoraria=25 , horario="10:00", local="Sala-A1")
     #db.removerDisciplina("História")
-    # print(retorno)
-    #db.marcarPresenca("Matematicas")
+    #print(retorno)
+    db.marcarPresenca("Matematicas", 5)
     #db.novaAnotacao("Matematica", "")
     #db.addNotas("Matematica", 8.5)
-    db.editarDisciplina("Matematica", novaMedia=6.5)
+    #db.editarDisciplina("Matematica", novaMedia=6.5)
 
     
     
