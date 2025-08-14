@@ -3,7 +3,7 @@ from sqlite3 import connect, IntegrityError
 #Classe principal:
 class DB_connect():
     def __init__(self) -> None:
-        self.con = connect("teste.db")
+        self.con = connect("teste.db") #Cria o banco de dados para testes
         #self.con = connect("SoftwareDB.db")
         self.cursor = self.con.cursor()
         
@@ -70,7 +70,8 @@ class DB_connect():
           
 
      def novaDisciplina(self, disciplina: str, tipoMedia: str, cargaHoraria: int, horario: str, local="não Informado", qtdPresenca=0, media=0.0) -> str:
-        try:
+         #Adiciona uma nova disciplina
+         try:
             self.cursor.execute("""
                 INSERT INTO disciplinas(disciplina, media, tipo_media, carga_horaria, qtd_presenca, local, horario)
                 VALUES (?, ?, ?, ?, ?, ?, ?)""",(disciplina, media, tipoMedia, cargaHoraria, qtdPresenca, local, horario))
@@ -88,6 +89,7 @@ class DB_connect():
 
 
      def removerDisciplina(self, disciplina: str) -> str:
+         #Remove uma disciplina
         try:
             self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
             id_disciplina = self.cursor.fetchone()[0]
@@ -114,6 +116,7 @@ class DB_connect():
     
 
     def editarDisciplina(self, disciplina, novoNome=None, novaMedia=None, novoTipoMedia=None, novaCargaHoraria=None, nova_qtd_presenca=None, novoLocal=None, novoHorario=None):
+        #Edita as informações necessarias da disciplina
         self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
         id_disciplina = self.cursor.fetchone()[0]
         
@@ -165,7 +168,58 @@ class DB_connect():
         else:
             return "Presença marcada com sucesso"
 
-   
+
+    def novaAnotacao(self, disciplina: str, anotacao: str, titulo = None) -> None:
+        #Adiciona uma nova anotação
+        try:
+            self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
+            id_disciplina = self.cursor.fetchone()[0]
+
+            if not titulo:
+                titulo = anotacao[:20].strip().replace("\n", " ")
+                titulo = titulo[:22] + "..." if len(anotacao.strip()) > 25 else titulo
+            elif len(titulo) > 25:
+                titulo = titulo[:22] + "..."
+
+            if anotacao.strip() != "":
+                self.cursor.execute("INSERT INTO anotacoes(titulo, anotacao, id_disciplina) VALUES (?, ?, ?);", (titulo ,anotacao, id_disciplina,))
+                self.con.commit()
+            else:
+                print("Anotação está vazia.")
+        
+        except TypeError as e:
+            print(f"Houve um erro ao salvar a anotação\nErro: {e}")
+            
+            return f"Houve um erro ao salvar"
+        except Exception as e:
+            print(f"Houve um erro inesperado:\n{e}")
+
+            return f"Houve um erro ao salvar"
+        else:
+            print("Anotação salva com sucesso")
+
+            return "Anotação salva com sucesso"
+
+
+    def addNotas(self, disciplina: str, nota: float) -> str:
+        #Adiciona nota a disciplina vinculada
+        try:
+            self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
+            id_disciplina = self.cursor.fetchone()[0]
+            self.cursor.execute("INSERT INTO notas(nota, id_disciplina) VALUES (?, ?)", (nota, id_disciplina,))
+            self.con.commit()
+        except TypeError as e:
+            print(f"Houve um erro ao adicionar nota\nErro: {e}")
+            
+            return f"Houve um erro ao adicionar"
+        except Exception as e:
+            print(f"Houve um erro inesperado:\n{e}")
+
+            return f"Houve um erro ao adicionar nota"
+        else:
+            print("Nota adicionada com sucesso")
+
+            return "Nota adicionada com sucesso"
 
 
     def getDisciplinaPorId(self, id_disciplina: int) -> dict:
@@ -178,10 +232,26 @@ class DB_connect():
                 return dict(zip(columns, row))
             return {}
 
+    
+    #para testes
+    def resetTable(self, tableName: str) -> None:
+        #Apaga todas as informações da tabela
+        self.cursor.execute(f"DELETE FROM {tableName};")
+        self.con.commit()
+
 
 if __name__ == "__main__":
-          db = DB_connect()
-          
-          #Area de Teste:
-          db.iniciarBD()
-          db.novaDisciplina(disciplina="Matematica", tipoMedia="aritmetica", cargaHoraria=25, horario="07:00")
+    db = DB_connect()
+        
+    #Area de Teste:
+    db.iniciarBD()
+    #db.novaDisciplina(disciplina="Matematica", tipoMedia="aritmetica", cargaHoraria=25 , horario="10:00", local="Sala-A1")
+    #db.removerDisciplina("História")
+    # print(retorno)
+    #db.marcarPresenca("Matematicas")
+    #db.novaAnotacao("Matematica", "")
+    #db.addNotas("Matematica", 8.5)
+    db.editarDisciplina("Portugues", novaMedia=6.5)
+    
+    
+    #db.resetTable("anotacoes")
