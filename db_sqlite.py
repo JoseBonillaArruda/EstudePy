@@ -17,7 +17,7 @@ class DB_connect():
         return table
 
     
-     def iniciarBD(self)-> None:
+    def iniciarBD(self)-> None:
         # self.cursor.execute("DROP TABLE anotacoes;")
         # self.con.commit()
         # self.cursor.execute("DROP TABLE notas;")
@@ -34,7 +34,7 @@ class DB_connect():
                     disciplina TEXT NOT NULL UNIQUE,
                     media REAL,
                     tipo_media TEXT NOT NULL,
-                    carga_horaria TEXT NOT NULL,
+                    carga_horaria INTEIRO NOT NULL,
                     qtd_presenca INTEGER NOT NULL,
                     local TEXT NOT NULL,
                     horario TEXT NOT NULL
@@ -67,11 +67,11 @@ class DB_connect():
             )
         
         self.con.commit()
-          
+        
 
-     def novaDisciplina(self, disciplina: str, tipoMedia: str, cargaHoraria: int, horario: str, local="não Informado", qtdPresenca=0, media=0.0) -> str:
-         #Adiciona uma nova disciplina
-         try:
+    def novaDisciplina(self, disciplina: str, tipoMedia: str, cargaHoraria: int, horario: str, local="não Informado", qtdPresenca=0, media=0.0) -> str:
+        #Adiciona uma nova disciplina
+        try:
             self.cursor.execute("""
                 INSERT INTO disciplinas(disciplina, media, tipo_media, carga_horaria, qtd_presenca, local, horario)
                 VALUES (?, ?, ?, ?, ?, ?, ?)""",(disciplina, media, tipoMedia, cargaHoraria, qtdPresenca, local, horario))
@@ -88,8 +88,8 @@ class DB_connect():
             return f"Sucesso ao acrecentar {disciplina} nas disciplinas"
 
 
-     def removerDisciplina(self, disciplina: str) -> str:
-         #Remove uma disciplina
+    def removerDisciplina(self, disciplina: str) -> str:
+        #Remove uma disciplina
         try:
             self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
             id_disciplina = self.cursor.fetchone()[0]
@@ -117,36 +117,42 @@ class DB_connect():
 
     def editarDisciplina(self, disciplina, novoNome=None, novaMedia=None, novoTipoMedia=None, novaCargaHoraria=None, nova_qtd_presenca=None, novoLocal=None, novoHorario=None):
         #Edita as informações necessarias da disciplina
+
         self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
         id_disciplina = self.cursor.fetchone()[0]
+
+        self.cursor.execute("SELECT * FROM disciplinas WHERE id=?", (id_disciplina,))
+        print(self.cursor.fetchall()[0])
+
         
-        if novoNome:
-            self.cursor.execute("UPDATE disciplinas SET disciplina=? WHERE id=?;", (novoNome, id_disciplina))
-            self.con.commit()
 
-        if novaMedia:
-            self.cursor.execute("UPDATE disciplinas SET media=? WHERE id=?;", (novaMedia, id_disciplina))
-            self.con.commit()
+        # self.cursor.execute("UPDATE disciplinas SET disciplina=?, media=?, tipo_media=?, carga_horaria=?, qtd_presenca=?, local=?, horario=? WHERE id=?;",
+        #     (novoNome, novaMedia, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario, id_disciplina))
+        # self.con.commit()
 
-        if novoTipoMedia:
-            self.cursor.execute("UPDATE disciplinas SET tipo_media=? WHERE id=?;", (novoTipoMedia, id_disciplina))
-            self.con.commit()
+        # if novaMedia:
+        #     self.cursor.execute("UPDATE disciplinas SET media=? WHERE id=?;", (novaMedia, id_disciplina))
+        #     self.con.commit()
 
-        if novaCargaHoraria:
-            self.cursor.execute("UPDATE disciplinas SET carga_horaria=? WHERE id=?;", (novaCargaHoraria, id_disciplina))
-            self.con.commit()
+        # if novoTipoMedia:
+        #     self.cursor.execute("UPDATE disciplinas SET tipo_media=? WHERE id=?;", (novoTipoMedia, id_disciplina))
+        #     self.con.commit()
 
-        if nova_qtd_presenca:
-            self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE id=?;", (nova_qtd_presenca, id_disciplina))
-            self.con.commit()
+        # if novaCargaHoraria:
+        #     self.cursor.execute("UPDATE disciplinas SET carga_horaria=? WHERE id=?;", (novaCargaHoraria, id_disciplina))
+        #     self.con.commit()
 
-        if novoLocal:
-            self.cursor.execute("UPDATE disciplinas SET local=? WHERE id=?;", (novoLocal, id_disciplina))
-            self.con.commit()
+        # if nova_qtd_presenca:
+        #     self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE id=?;", (nova_qtd_presenca, id_disciplina))
+        #     self.con.commit()
 
-        if novoHorario:
-            self.cursor.execute("UPDATE disciplinas SET horario=? WHERE id=?;", (novoHorario, id_disciplina))
-            self.con.commit()
+        # if novoLocal:
+        #     self.cursor.execute("UPDATE disciplinas SET local=? WHERE id=?;", (novoLocal, id_disciplina))
+        #     self.con.commit()
+
+        # if novoHorario:
+        #     self.cursor.execute("UPDATE disciplinas SET horario=? WHERE id=?;", (novoHorario, id_disciplina))
+        #     self.con.commit()
             
 
     def marcarPresenca(self, disciplina: str) -> str:
@@ -245,13 +251,14 @@ if __name__ == "__main__":
         
     #Area de Teste:
     db.iniciarBD()
-    #db.novaDisciplina(disciplina="Matematica", tipoMedia="aritmetica", cargaHoraria=25 , horario="10:00", local="Sala-A1")
+    #db.novaDisciplina(disciplina="História", tipoMedia="aritmetica", cargaHoraria=25 , horario="10:00", local="Sala-A1")
     #db.removerDisciplina("História")
     # print(retorno)
     #db.marcarPresenca("Matematicas")
     #db.novaAnotacao("Matematica", "")
     #db.addNotas("Matematica", 8.5)
-    db.editarDisciplina("Portugues", novaMedia=6.5)
+    db.editarDisciplina("Matematica", novaMedia=6.5)
+
     
     
     #db.resetTable("anotacoes")
