@@ -118,15 +118,45 @@ class DB_connect():
     def editarDisciplina(self, disciplina, novoNome=None, novaMedia=None, novoTipoMedia=None, novaCargaHoraria=None, nova_qtd_presenca=None, novoLocal=None, novoHorario=None):
         #Edita as informações necessarias da disciplina
 
-        valores = [novoNome, novaMedia, novoHorario, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario]
-        for valores in valores:
-            print(valores)
-
+        #Copilot
+        campos = {
+            "disciplina": novoNome,
+            "media": novaMedia,
+            "tipo_media": novoTipoMedia,
+            "carga_horaria": novaCargaHoraria,
+            "qtd_presenca": nova_qtd_presenca,
+            "local": novoLocal,
+            "horario": novoHorario
+        }
+        set_clauses = []
+        valores = []
+        for campo, valor in campos.items():
+            if valor is not None and valor != "":
+                set_clauses.append(f"{campo}=?")
+                valores.append(valor)
+        if not set_clauses:
+            return "Nenhum campo para atualizar foi fornecido."
         self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
-        id_disciplina = self.cursor.fetchone()[0]
+        resultado = self.cursor.fetchone()
+        if not resultado:
+            return "Disciplina não encontrada."
+        id_disciplina = resultado[0]
+        sql = "UPDATE disciplinas SET " + ", ".join(set_clauses) + " WHERE id=?;"
+        valores.append(id_disciplina)
+        self.cursor.execute(sql, valores)
+        self.con.commit()
+        return f"Disciplina '{disciplina}' atualizada com sucesso."
+        #Copilot
 
-        self.cursor.execute("SELECT * FROM disciplinas WHERE id=?", (id_disciplina,))
-        print(self.cursor.fetchall()[0])
+        # valores = [novoNome, novaMedia, novoHorario, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario]
+        # for valores in valores:
+        #     print(valores)
+
+        # self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
+        # id_disciplina = self.cursor.fetchone()[0]
+
+        # self.cursor.execute("SELECT * FROM disciplinas WHERE id=?", (id_disciplina,))
+        # print(self.cursor.fetchall()[0])
 
             
 
