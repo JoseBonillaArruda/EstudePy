@@ -34,7 +34,7 @@ class DB_connect():
                     disciplina TEXT NOT NULL UNIQUE,
                     media REAL,
                     tipo_media TEXT NOT NULL,
-                    carga_horaria INTEIRO NOT NULL,
+                    carga_horaria INTEGER NOT NULL,
                     qtd_presenca INTEGER NOT NULL,
                     local TEXT NOT NULL,
                     horario TEXT NOT NULL
@@ -130,22 +130,16 @@ class DB_connect():
 
             
 
-    def marcarPresenca(self, disciplina: str, valor: int) -> str:
+    def marcarPresenca(self, id: int, valor: int) -> None:
         #Atualiza a quantidade de presença para uma disciplina específica.
-        try:
-            self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE disciplina=?;", (valor, disciplina,))
-            self.con.commit()
-            print("Teste")
-        except TypeError as e:
-            print(f"Disciplina {disciplina} não encontrado\nErro: {e}")
+        self.cursor.execute("SELECT qtd_presenca FROM disciplinas WHERE id=?", (id,))
+        qtd_presenca = self.cursor.fetchall()[0][0]
 
-            return f"Disciplina {disciplina} não econtrado"
-        except Exception as e:
-            print(f"Houve um erro inesperado:\n{e}")
+        if qtd_presenca + valor >= 0:
+            qtd_presenca += valor
 
-            return "Houve um erro ao marcar presença"
-        else:
-            return "Presença marcada com sucesso"
+        self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE id=?;", (qtd_presenca, id,))
+        self.con.commit()
 
 
     def novaAnotacao(self, disciplina: str, anotacao: str, titulo = None) -> None:
@@ -227,7 +221,7 @@ if __name__ == "__main__":
     #db.novaDisciplina(disciplina="História", tipoMedia="aritmetica", cargaHoraria=25 , horario="10:00", local="Sala-A1")
     #db.removerDisciplina("História")
     #print(retorno)
-    db.marcarPresenca("Matematicas", 5)
+    db.marcarPresenca(1, -460)
     #db.novaAnotacao("Matematica", "")
     #db.addNotas("Matematica", 8.5)
     #db.editarDisciplina("Matematica", novaMedia=6.5)
