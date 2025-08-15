@@ -192,6 +192,15 @@ class DB_connect():
 
             return "Nota adicionada com sucesso"
 
+    def editarNota(self, id_nota: int, nova_nota: float, novo_peso: int) -> None:
+        #Atualiza a nota e o peso de uma nota específica.
+        try:
+            self.cursor.execute("UPDATE notas SET nota = ?, peso = ? WHERE id_notas = ?", (nova_nota, novo_peso, id_nota))
+            self.con.commit()
+        except Exception as e:
+            print(f"Houve um erro ao editar a nota\nErro: {e}")
+        else:
+            print("Nota editada com sucesso")
 
     def getDisciplinaPorId(self, id_disciplina: int) -> dict:
             #Retorna as informações da disciplina em formato de dicionário.

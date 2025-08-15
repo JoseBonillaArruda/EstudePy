@@ -41,6 +41,7 @@ class MainWindow(QMainWindow):
         self.ui.marcpressalvapushButton.clicked.connect(self.MarcarPresenca)
         self.ui.editdiscisalvapushButton.clicked.connect(self.EditarDisciplina)
         self.ui.novnotasalvapushButton.clicked.connect(self.addNotas)
+        self.ui.editnotsalvapushButton.clicked.connect(self.EditarNota)
 
         daylist = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado']
         self.ui.novdiscidiacomboBox.addItems(daylist)
@@ -100,19 +101,26 @@ class MainWindow(QMainWindow):
         
         self.ui.discinotatableWidget.setItem(num_notas, 0, QTableWidgetItem('Média'))
         self.ui.discinotatableWidget.setItem(num_notas, 1, QTableWidgetItem(str(f'{media:.2f}')))
-
-
-    
+        disci_info = [disci.get('disciplina'),disci.get('horario'),disci.get('local')]
+        self.ui.discihorariotableWidget.setRowCount(1)
+        self.ui.discihorariotableWidget.setColumnCount(3)
+        self.ui.discihorariotableWidget.setHorizontalHeaderLabels(['Disciplina', 'Horário', 'Local'])
+        for j in range(3):
+            item = QTableWidgetItem(str(disci_info[j]))
+            self.ui.discihorariotableWidget.setItem(0, j, item)
         self.ui.stackedWidget.setCurrentIndex(1)
 
     def novnota_page(self):
-        #TODO notas = db.getNotasPorId(self.disci_id_atual)
-        #self.ui.novnotatableWidget.setRowCount(len(notas))
-        #self.ui.novnotatableWidget.setColumnCount(1)
-        #self.ui.novnotatableWidget.setHorizontalHeaderLabels(['Disciplina','Nota'])
-        #for i in range(len(notas)):
-        #    item = QTableWidgetItem(str(notas[i][1]))
-        #    self.ui.novnotatableWidget.setItem(i, 0, item)
+        disci_notas = db.getNotasPorId(self.disci_id_atual)
+        num_notas = sum(isinstance(item, tuple) for item in disci_notas)
+        self.ui.novnotatableWidget.setRowCount(num_notas)
+        self.ui.novnotatableWidget.setColumnCount(2)
+        self.ui.novnotatableWidget.setHorizontalHeaderLabels(['Nota', 'Peso'])
+        for i in range(num_notas):
+            for j in range(2):
+                item = QTableWidgetItem(str(disci_notas[i][j+2]))
+                self.ui.novnotatableWidget.setItem(i, j, item)
+        
         self.ui.stackedWidget.setCurrentIndex(2)
 
     def novdisci_page(self):
@@ -133,6 +141,20 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(3)
     
     def editnota_page(self):
+        disci_notas = db.getNotasPorId(self.disci_id_atual)
+        num_notas = sum(isinstance(item, tuple) for item in disci_notas)
+        notas_id =[str(disci_notas[i][0]) for i in range(num_notas)]
+        self.ui.editnotatableWidget.setRowCount(num_notas)
+        self.ui.editnotatableWidget.setColumnCount(2)
+        self.ui.editnotatableWidget.setHorizontalHeaderLabels(['Nota', 'Peso'])
+        for i in range(num_notas):
+            for j in range(2):
+                item = QTableWidgetItem(str(disci_notas[i][j+2]))
+                self.ui.editnotatableWidget.setItem(i, j, item)
+        self.ui.editnotaselectcomboBox.clear()
+        self.ui.editnotaselectcomboBox.addItem('Notas...')
+        self.ui.editnotaselectcomboBox.addItems(notas_id)
+
         self.ui.stackedWidget.setCurrentIndex(4)
     
     def editdisci_page(self):
@@ -200,6 +222,14 @@ class MainWindow(QMainWindow):
         peso = self.ui.novnotapesospinBox.value()
         db.addNotas(self.disci_id_atual, nota, peso)
         self.disci_page()
+    
+
+    def EditarNota(self):
+        nota = self.ui.editnotadoubleSpinBox.value()
+        peso = self.ui.editnotaspinBox.value()
+        nota_id = int(self.ui.editnotaselectcomboBox.currentText())
+        db.editarNota(nota_id, nota, peso)
+        self.editnota_page()
 
 
     def ApagarDisciplina(self, ID):

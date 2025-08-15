@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(606, 450)
+        MainWindow.resize(610, 450)
         MainWindow.setDockNestingEnabled(False)
         MainWindow.setDockOptions(QMainWindow.AllowTabbedDocks|QMainWindow.AnimatedDocks|QMainWindow.ForceTabbedDocks)
         self.centralwidget = QWidget(MainWindow)
@@ -94,10 +94,6 @@ class Ui_MainWindow(object):
         self.page_disciplina.setObjectName(u"page_disciplina")
         self.gridLayout_3 = QGridLayout(self.page_disciplina)
         self.gridLayout_3.setObjectName(u"gridLayout_3")
-        self.verticalLayout_8 = QVBoxLayout()
-        self.verticalLayout_8.setObjectName(u"verticalLayout_8")
-        self.horizontalLayout_11 = QHBoxLayout()
-        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.verticalLayout_7 = QVBoxLayout()
         self.verticalLayout_7.setObjectName(u"verticalLayout_7")
         self.discipresencatableWidget = QTableWidget(self.page_disciplina)
@@ -111,14 +107,31 @@ class Ui_MainWindow(object):
         self.verticalLayout_7.addWidget(self.discimarcaprespushButton)
 
 
-        self.horizontalLayout_11.addLayout(self.verticalLayout_7)
+        self.gridLayout_3.addLayout(self.verticalLayout_7, 0, 0, 1, 1)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
         self.discinotatableWidget = QTableWidget(self.page_disciplina)
         self.discinotatableWidget.setObjectName(u"discinotatableWidget")
 
-        self.verticalLayout_3.addWidget(self.discinotatableWidget)
+        self.gridLayout_3.addWidget(self.discinotatableWidget, 0, 1, 2, 1)
+
+        self.discihorariotableWidget = QTableWidget(self.page_disciplina)
+        self.discihorariotableWidget.setObjectName(u"discihorariotableWidget")
+
+        self.gridLayout_3.addWidget(self.discihorariotableWidget, 1, 0, 1, 1)
+
+        self.horizontalLayout_14 = QHBoxLayout()
+        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
+        self.discieditardidscipushButton = QPushButton(self.page_disciplina)
+        self.discieditardidscipushButton.setObjectName(u"discieditardidscipushButton")
+
+        self.horizontalLayout_14.addWidget(self.discieditardidscipushButton)
+
+        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_14.addItem(self.horizontalSpacer_7)
+
+
+        self.gridLayout_3.addLayout(self.horizontalLayout_14, 2, 0, 1, 1)
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
@@ -133,32 +146,7 @@ class Ui_MainWindow(object):
         self.horizontalLayout_2.addWidget(self.discieditnotapushButton)
 
 
-        self.verticalLayout_3.addLayout(self.horizontalLayout_2)
-
-
-        self.horizontalLayout_11.addLayout(self.verticalLayout_3)
-
-
-        self.verticalLayout_8.addLayout(self.horizontalLayout_11)
-
-        self.discihorariotableWidget = QTableWidget(self.page_disciplina)
-        self.discihorariotableWidget.setObjectName(u"discihorariotableWidget")
-
-        self.verticalLayout_8.addWidget(self.discihorariotableWidget)
-
-        self.horizontalLayout_14 = QHBoxLayout()
-        self.horizontalLayout_14.setObjectName(u"horizontalLayout_14")
-        self.discieditardidscipushButton = QPushButton(self.page_disciplina)
-        self.discieditardidscipushButton.setObjectName(u"discieditardidscipushButton")
-
-        self.horizontalLayout_14.addWidget(self.discieditardidscipushButton)
-
-        self.horizontalSpacer_7 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
-
-        self.horizontalLayout_14.addItem(self.horizontalSpacer_7)
-
-
-        self.verticalLayout_8.addLayout(self.horizontalLayout_14)
+        self.gridLayout_3.addLayout(self.horizontalLayout_2, 2, 1, 1, 1)
 
         self.anotatabWidget = QTabWidget(self.page_disciplina)
         self.anotatabWidget.setObjectName(u"anotatabWidget")
@@ -194,10 +182,7 @@ class Ui_MainWindow(object):
 
         self.anotatabWidget.addTab(self.tab_1, "")
 
-        self.verticalLayout_8.addWidget(self.anotatabWidget)
-
-
-        self.gridLayout_3.addLayout(self.verticalLayout_8, 0, 0, 1, 1)
+        self.gridLayout_3.addWidget(self.anotatabWidget, 3, 0, 1, 2)
 
         self.stackedWidget.addWidget(self.page_disciplina)
         self.page_prova = QWidget()
@@ -220,6 +205,7 @@ class Ui_MainWindow(object):
 
         self.novnotapesospinBox = QSpinBox(self.page_prova)
         self.novnotapesospinBox.setObjectName(u"novnotapesospinBox")
+        self.novnotapesospinBox.setMinimum(1)
 
         self.verticalLayout_5.addWidget(self.novnotapesospinBox)
 
@@ -230,6 +216,7 @@ class Ui_MainWindow(object):
 
         self.novnotadoubleSpinBox = QDoubleSpinBox(self.page_prova)
         self.novnotadoubleSpinBox.setObjectName(u"novnotadoubleSpinBox")
+        self.novnotadoubleSpinBox.setMaximum(10.000000000000000)
 
         self.verticalLayout_5.addWidget(self.novnotadoubleSpinBox)
 
@@ -417,17 +404,10 @@ class Ui_MainWindow(object):
         self.stackedWidget.addWidget(self.page_novdisci)
         self.page_editarnotas = QWidget()
         self.page_editarnotas.setObjectName(u"page_editarnotas")
-        self.gridLayout_14 = QGridLayout(self.page_editarnotas)
-        self.gridLayout_14.setObjectName(u"gridLayout_14")
-        self.horizontalLayout_27 = QHBoxLayout()
-        self.horizontalLayout_27.setObjectName(u"horizontalLayout_27")
-        self.editnotatableWidget_6 = QTableWidget(self.page_editarnotas)
-        self.editnotatableWidget_6.setObjectName(u"editnotatableWidget_6")
-
-        self.horizontalLayout_27.addWidget(self.editnotatableWidget_6)
-
-        self.verticalLayout_27 = QVBoxLayout()
-        self.verticalLayout_27.setObjectName(u"verticalLayout_27")
+        self.gridLayout_10 = QGridLayout(self.page_editarnotas)
+        self.gridLayout_10.setObjectName(u"gridLayout_10")
+        self.verticalLayout_17 = QVBoxLayout()
+        self.verticalLayout_17.setObjectName(u"verticalLayout_17")
         self.verticalLayout_14 = QVBoxLayout()
         self.verticalLayout_14.setObjectName(u"verticalLayout_14")
         self.verticalLayout_13 = QVBoxLayout()
@@ -464,6 +444,7 @@ class Ui_MainWindow(object):
 
         self.editnotadoubleSpinBox = QDoubleSpinBox(self.page_editarnotas)
         self.editnotadoubleSpinBox.setObjectName(u"editnotadoubleSpinBox")
+        self.editnotadoubleSpinBox.setMaximum(10.000000000000000)
 
         self.verticalLayout_12.addWidget(self.editnotadoubleSpinBox)
 
@@ -471,11 +452,27 @@ class Ui_MainWindow(object):
         self.verticalLayout_14.addLayout(self.verticalLayout_12)
 
 
-        self.verticalLayout_27.addLayout(self.verticalLayout_14)
+        self.verticalLayout_17.addLayout(self.verticalLayout_14)
+
+        self.verticalLayout_11 = QVBoxLayout()
+        self.verticalLayout_11.setObjectName(u"verticalLayout_11")
+        self.label_17 = QLabel(self.page_editarnotas)
+        self.label_17.setObjectName(u"label_17")
+
+        self.verticalLayout_11.addWidget(self.label_17)
+
+        self.editnotaspinBox = QSpinBox(self.page_editarnotas)
+        self.editnotaspinBox.setObjectName(u"editnotaspinBox")
+        self.editnotaspinBox.setMinimum(1)
+
+        self.verticalLayout_11.addWidget(self.editnotaspinBox)
+
+
+        self.verticalLayout_17.addLayout(self.verticalLayout_11)
 
         self.verticalSpacer_4 = QSpacerItem(20, 40, QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Expanding)
 
-        self.verticalLayout_27.addItem(self.verticalSpacer_4)
+        self.verticalLayout_17.addItem(self.verticalSpacer_4)
 
         self.horizontalLayout_12 = QHBoxLayout()
         self.horizontalLayout_12.setObjectName(u"horizontalLayout_12")
@@ -490,13 +487,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout_12.addWidget(self.editnotaretornapushButton)
 
 
-        self.verticalLayout_27.addLayout(self.horizontalLayout_12)
+        self.verticalLayout_17.addLayout(self.horizontalLayout_12)
 
 
-        self.horizontalLayout_27.addLayout(self.verticalLayout_27)
+        self.gridLayout_10.addLayout(self.verticalLayout_17, 0, 1, 1, 1)
 
+        self.editnotatableWidget = QTableWidget(self.page_editarnotas)
+        self.editnotatableWidget.setObjectName(u"editnotatableWidget")
 
-        self.gridLayout_14.addLayout(self.horizontalLayout_27, 0, 0, 1, 1)
+        self.gridLayout_10.addWidget(self.editnotatableWidget, 0, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.page_editarnotas)
         self.page_editardisci = QWidget()
@@ -728,7 +727,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 606, 21))
+        self.menubar.setGeometry(QRect(0, 0, 610, 21))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -776,7 +775,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         self.anotatabWidget_3.setCurrentIndex(0)
         self.anotatabWidget.setCurrentIndex(0)
 
@@ -789,13 +788,13 @@ class Ui_MainWindow(object):
         self.geralanotapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.anotatabWidget_3.setTabText(self.anotatabWidget_3.indexOf(self.tab_4), QCoreApplication.translate("MainWindow", u"Anota\u00e7\u00f5es", None))
         self.discimarcaprespushButton.setText(QCoreApplication.translate("MainWindow", u"Marcar Presen\u00e7a", None))
+        self.discieditardidscipushButton.setText(QCoreApplication.translate("MainWindow", u"Editar Disciplina", None))
         self.discinovanotapushButton.setText(QCoreApplication.translate("MainWindow", u"Nova Prova", None))
         self.discieditnotapushButton.setText(QCoreApplication.translate("MainWindow", u"Editar Notas", None))
-        self.discieditardidscipushButton.setText(QCoreApplication.translate("MainWindow", u"Editar Disciplina", None))
         self.discianotapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.anotatabWidget.setTabText(self.anotatabWidget.indexOf(self.tab_1), QCoreApplication.translate("MainWindow", u"Anota\u00e7\u00f5es", None))
         self.label.setText(QCoreApplication.translate("MainWindow", u"Nova Prova", None))
-        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Peso (Opcional):", None))
+        self.label_2.setText(QCoreApplication.translate("MainWindow", u"Peso (Padr\u00e3o 1):", None))
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Nota:", None))
         self.novnotasalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.novnotaretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
@@ -812,6 +811,7 @@ class Ui_MainWindow(object):
         self.label_10.setText(QCoreApplication.translate("MainWindow", u"Editar Nota:", None))
         self.editnotadeletepushButton.setText(QCoreApplication.translate("MainWindow", u"Remover Nota", None))
         self.label_12.setText(QCoreApplication.translate("MainWindow", u"Nota:", None))
+        self.label_17.setText(QCoreApplication.translate("MainWindow", u"Peso(Padr\u00e3o 1):", None))
         self.editnotsalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.editnotaretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"Editar Disciplina", None))
