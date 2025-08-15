@@ -202,6 +202,17 @@ class DB_connect():
         else:
             print("Nota editada com sucesso")
 
+    
+    def RegMedia(self, id_disciplina: int, media: float) -> None:
+        #Atualiza o valor da média na tabela disciplinas para o id_disciplina informado.
+        self.cursor.execute(
+            "UPDATE disciplinas SET media = ? WHERE id = ?;", (media, id_disciplina)
+        )
+        self.con.commit()
+
+
+
+
     def getDisciplinaPorId(self, id_disciplina: int) -> dict:
             #Retorna as informações da disciplina em formato de dicionário.
             self.cursor.execute(

@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(610, 450)
+        MainWindow.resize(929, 444)
         MainWindow.setDockNestingEnabled(False)
         MainWindow.setDockOptions(QMainWindow.AllowTabbedDocks|QMainWindow.AnimatedDocks|QMainWindow.ForceTabbedDocks)
         self.centralwidget = QWidget(MainWindow)
@@ -42,15 +42,10 @@ class Ui_MainWindow(object):
         self.page_geral.setObjectName(u"page_geral")
         self.gridLayout_7 = QGridLayout(self.page_geral)
         self.gridLayout_7.setObjectName(u"gridLayout_7")
-        self.geralpresencatableWidget = QTableWidget(self.page_geral)
-        self.geralpresencatableWidget.setObjectName(u"geralpresencatableWidget")
-
-        self.gridLayout_7.addWidget(self.geralpresencatableWidget, 0, 0, 1, 1)
-
         self.geraldiscitableWidget = QTableWidget(self.page_geral)
         self.geraldiscitableWidget.setObjectName(u"geraldiscitableWidget")
 
-        self.gridLayout_7.addWidget(self.geraldiscitableWidget, 1, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.geraldiscitableWidget, 0, 0, 1, 1)
 
         self.anotatabWidget_3 = QTabWidget(self.page_geral)
         self.anotatabWidget_3.setObjectName(u"anotatabWidget_3")
@@ -87,7 +82,7 @@ class Ui_MainWindow(object):
 
         self.anotatabWidget_3.addTab(self.tab_4, "")
 
-        self.gridLayout_7.addWidget(self.anotatabWidget_3, 2, 0, 1, 1)
+        self.gridLayout_7.addWidget(self.anotatabWidget_3, 1, 0, 1, 1)
 
         self.stackedWidget.addWidget(self.page_geral)
         self.page_disciplina = QWidget()
@@ -727,7 +722,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 610, 21))
+        self.menubar.setGeometry(QRect(0, 0, 929, 21))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -735,6 +730,11 @@ class Ui_MainWindow(object):
         self.sidedockWidget = QDockWidget(MainWindow)
         self.sidedockWidget.setObjectName(u"sidedockWidget")
         self.sidedockWidget.setEnabled(True)
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.sidedockWidget.sizePolicy().hasHeightForWidth())
+        self.sidedockWidget.setSizePolicy(sizePolicy)
         self.sidedockWidget.setFeatures(QDockWidget.NoDockWidgetFeatures)
         self.sidedockWidget.setAllowedAreas(Qt.NoDockWidgetArea)
         self.dockWidgetContents_3 = QWidget()
@@ -760,6 +760,7 @@ class Ui_MainWindow(object):
 
         self.listDiscicomboBox = QComboBox(self.dockWidgetContents_3)
         self.listDiscicomboBox.setObjectName(u"listDiscicomboBox")
+        self.listDiscicomboBox.setToolTipDuration(0)
 
         self.verticalLayout.addWidget(self.listDiscicomboBox)
 
@@ -775,7 +776,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         self.anotatabWidget_3.setCurrentIndex(0)
         self.anotatabWidget.setCurrentIndex(0)
 
@@ -830,7 +831,7 @@ class Ui_MainWindow(object):
         self.marcpressalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.marcpresretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
 #if QT_CONFIG(tooltip)
-        self.sidedockWidget.setToolTip(QCoreApplication.translate("MainWindow", u"<html><head/><body><p><br/></p></body></html>", None))
+        self.sidedockWidget.setToolTip("")
 #endif // QT_CONFIG(tooltip)
         self.novadiscipushButton.setText(QCoreApplication.translate("MainWindow", u"Nova Disciplina", None))
         self.GeralpushButton.setText(QCoreApplication.translate("MainWindow", u"Geral", None))

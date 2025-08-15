@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>610</width>
-    <height>450</height>
+    <width>929</width>
+    <height>444</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -30,17 +30,14 @@
        <enum>QFrame::Raised</enum>
       </property>
       <property name="currentIndex">
-       <number>1</number>
+       <number>0</number>
       </property>
       <widget class="QWidget" name="page_geral">
        <layout class="QGridLayout" name="gridLayout_7">
         <item row="0" column="0">
-         <widget class="QTableWidget" name="geralpresencatableWidget"/>
-        </item>
-        <item row="1" column="0">
          <widget class="QTableWidget" name="geraldiscitableWidget"/>
         </item>
-        <item row="2" column="0">
+        <item row="1" column="0">
          <widget class="QTabWidget" name="anotatabWidget_3">
           <property name="currentIndex">
            <number>0</number>
@@ -876,7 +873,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>610</width>
+     <width>929</width>
      <height>21</height>
     </rect>
    </property>
@@ -886,8 +883,14 @@
    <property name="enabled">
     <bool>true</bool>
    </property>
+   <property name="sizePolicy">
+    <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
+     <horstretch>0</horstretch>
+     <verstretch>0</verstretch>
+    </sizepolicy>
+   </property>
    <property name="toolTip">
-    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;br/&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
+    <string/>
    </property>
    <property name="features">
     <set>QDockWidget::NoDockWidgetFeatures</set>
@@ -924,7 +927,11 @@
         </widget>
        </item>
        <item>
-        <widget class="QComboBox" name="listDiscicomboBox"/>
+        <widget class="QComboBox" name="listDiscicomboBox">
+         <property name="toolTipDuration">
+          <number>0</number>
+         </property>
+        </widget>
        </item>
        <item>
         <spacer name="verticalSpacer_2">

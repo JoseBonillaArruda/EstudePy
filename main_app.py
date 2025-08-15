@@ -49,6 +49,7 @@ class MainWindow(QMainWindow):
         tipomedialist = ['Aritmética','Ponderada']
         self.ui.novdiscitipomediacomboBox.addItems(tipomedialist)
         self.ui.editdiscitipomediacomboBox.addItems(tipomedialist)
+        self.geral_page()
 
     
     def reg_nova_disciplina(self):
@@ -66,19 +67,33 @@ class MainWindow(QMainWindow):
 
 
     def geral_page(self):
+        self.ui.listDiscicomboBox.setCurrentIndex(0)
+        disci = []
+        for i in range(self.ui.listDiscicomboBox.count()):
+            disci.append(db.getDisciplinaPorId(i))
+        disci.pop(0)
+        num_disci = sum(isinstance(item, dict) for item in disci)
+        self.ui.geraldiscitableWidget.setRowCount(num_disci)
+        self.ui.geraldiscitableWidget.setColumnCount(8)
+        self.ui.geraldiscitableWidget.setHorizontalHeaderLabels(['ID', 'Disciplina', 'Média', 'Tipo Média', 'Carga Horária', 'Qtd Presença', 'Local', 'Horário'])
+        keylist = ['id', 'disciplina', 'media', 'tipo_media', 'carga_horaria', 'qtd_presenca', 'local', 'horario']
+        for i in range(num_disci):
+            for j in range(8):
+                item = QTableWidgetItem(str(disci[i].get(keylist[j])))
+                self.ui.geraldiscitableWidget.setItem(i, j, item)
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def disci_page(self):
         self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
         disci = db.getDisciplinaPorId(self.disci_id_atual)
         disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),(disci.get('qtd_presenca')/disci.get('carga_horaria')*100)]
-        self.ui.discipresencatableWidget.setRowCount(3)
-        self.ui.discipresencatableWidget.setColumnCount(1)
-        self.ui.discipresencatableWidget.setHorizontalHeaderLabels([''])
-        self.ui.discipresencatableWidget.setVerticalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
+        self.ui.discipresencatableWidget.setRowCount(1)
+        self.ui.discipresencatableWidget.setColumnCount(3)
+        self.ui.discipresencatableWidget.setVerticalHeaderLabels([''])
+        self.ui.discipresencatableWidget.setHorizontalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
         for i in range(3):
             item = QTableWidgetItem(str(disci_pres[i]))
-            self.ui.discipresencatableWidget.setItem(i, 0, item)
+            self.ui.discipresencatableWidget.setItem(0, i, item)
 
         disci_notas = db.getNotasPorId(self.disci_id_atual)
         num_notas = sum(isinstance(item, tuple) for item in disci_notas)
@@ -90,7 +105,7 @@ class MainWindow(QMainWindow):
                 media = sum(disci_notas[i][2] * disci_notas[i][3] for i in range(num_notas)) / total_peso
             else:
                 media = 0
-
+        db.RegMedia(self.disci_id_atual,media)
         self.ui.discinotatableWidget.setRowCount(num_notas+1)
         self.ui.discinotatableWidget.setColumnCount(2)
         self.ui.discinotatableWidget.setHorizontalHeaderLabels(['Nota', 'Peso'])
