@@ -47,8 +47,9 @@ class DB_connect():
             self.cursor.execute("""
                 CREATE TABLE notas (
                     id_notas INTEGER PRIMARY KEY AUTOINCREMENT,
-                    nota REAL NOT NULL,
                     id_disciplina INTEGER NOT NULL,
+                    nota REAL NOT NULL,
+                    peso INTEGER NOT NULL DEFAULT 1,
                     FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id) ON DELETE CASCADE
                 );"""
             )
@@ -115,48 +116,17 @@ class DB_connect():
           return self.cursor.fetchall()
     
 
-    def editarDisciplina(self, disciplina, novoNome=None, novaMedia=None, novoTipoMedia=None, novaCargaHoraria=None, nova_qtd_presenca=None, novoLocal=None, novoHorario=None):
-        #Edita as informações necessarias da disciplina
-
-        #Copilot
-        campos = {
-            "disciplina": novoNome,
-            "media": novaMedia,
-            "tipo_media": novoTipoMedia,
-            "carga_horaria": novaCargaHoraria,
-            "qtd_presenca": nova_qtd_presenca,
-            "local": novoLocal,
-            "horario": novoHorario
-        }
-        set_clauses = []
-        valores = []
-        for campo, valor in campos.items():
-            if valor is not None and valor != "":
-                set_clauses.append(f"{campo}=?")
-                valores.append(valor)
-        if not set_clauses:
-            return "Nenhum campo para atualizar foi fornecido."
-        self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
-        resultado = self.cursor.fetchone()
-        if not resultado:
-            return "Disciplina não encontrada."
-        id_disciplina = resultado[0]
-        sql = "UPDATE disciplinas SET " + ", ".join(set_clauses) + " WHERE id=?;"
-        valores.append(id_disciplina)
+    def editarDisciplina(self, id_disciplina, novoNome, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario):
+    
+    #Atualiza todos os campos da disciplina identificada por id_disciplina.
+        sql = """
+        UPDATE disciplinas
+        SET disciplina = ?, tipo_media = ?, carga_horaria = ?, qtd_presenca = ?, local = ?, horario = ?
+        WHERE id = ?;
+        """
+        valores = (novoNome, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario, id_disciplina)
         self.cursor.execute(sql, valores)
         self.con.commit()
-        return f"Disciplina '{disciplina}' atualizada com sucesso."
-        #Copilot
-
-        # valores = [novoNome, novaMedia, novoHorario, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario]
-        # for valores in valores:
-        #     print(valores)
-
-        # self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
-        # id_disciplina = self.cursor.fetchone()[0]
-
-        # self.cursor.execute("SELECT * FROM disciplinas WHERE id=?", (id_disciplina,))
-        # print(self.cursor.fetchall()[0])
 
             
 
@@ -204,12 +174,10 @@ class DB_connect():
             return "Anotação salva com sucesso"
 
 
-    def addNotas(self, disciplina: str, nota: float) -> str:
+    def addNotas(self, id_disciplina: int, nota: float,peso:int):
         #Adiciona nota a disciplina vinculada
         try:
-            self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
-            id_disciplina = self.cursor.fetchone()[0]
-            self.cursor.execute("INSERT INTO notas(nota, id_disciplina) VALUES (?, ?)", (nota, id_disciplina,))
+            self.cursor.execute("INSERT INTO notas(nota, id_disciplina, peso) VALUES (?, ?, ?)", (nota, id_disciplina,peso,))
             self.con.commit()
         except TypeError as e:
             print(f"Houve um erro ao adicionar nota\nErro: {e}")
@@ -235,7 +203,14 @@ class DB_connect():
                 return dict(zip(columns, row))
             return {}
 
-    
+
+    def getNotasPorId(self, id_disciplina: int):
+        """
+        Retorna todas as notas da tabela 'notas' para o id da disciplina informado.
+        """
+        self.cursor.execute("SELECT * FROM notas WHERE id_disciplina = ?", (id_disciplina,))
+        return self.cursor.fetchall()
+
     #para testes
     def resetTable(self, tableName: str) -> None:
         #Apaga todas as informações da tabela

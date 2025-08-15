@@ -27,7 +27,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(401, 450)
+        MainWindow.resize(606, 450)
         MainWindow.setDockNestingEnabled(False)
         MainWindow.setDockOptions(QMainWindow.AllowTabbedDocks|QMainWindow.AnimatedDocks|QMainWindow.ForceTabbedDocks)
         self.centralwidget = QWidget(MainWindow)
@@ -268,16 +268,8 @@ class Ui_MainWindow(object):
         self.page_novdisci.setObjectName(u"page_novdisci")
         self.gridLayout_5 = QGridLayout(self.page_novdisci)
         self.gridLayout_5.setObjectName(u"gridLayout_5")
-        self.label_4 = QLabel(self.page_novdisci)
-        self.label_4.setObjectName(u"label_4")
-
-        self.gridLayout_5.addWidget(self.label_4, 0, 0, 1, 1)
-
-        self.novdiscitableWidget = QTableWidget(self.page_novdisci)
-        self.novdiscitableWidget.setObjectName(u"novdiscitableWidget")
-
-        self.gridLayout_5.addWidget(self.novdiscitableWidget, 1, 0, 1, 1)
-
+        self.horizontalLayout_19 = QHBoxLayout()
+        self.horizontalLayout_19.setObjectName(u"horizontalLayout_19")
         self.horizontalLayout_17 = QHBoxLayout()
         self.horizontalLayout_17.setObjectName(u"horizontalLayout_17")
         self.label_14 = QLabel(self.page_novdisci)
@@ -291,7 +283,25 @@ class Ui_MainWindow(object):
         self.horizontalLayout_17.addWidget(self.novdiscinomelineEdit)
 
 
-        self.gridLayout_5.addLayout(self.horizontalLayout_17, 2, 0, 1, 1)
+        self.horizontalLayout_19.addLayout(self.horizontalLayout_17)
+
+        self.editdisciDeletarpushButton = QPushButton(self.page_novdisci)
+        self.editdisciDeletarpushButton.setObjectName(u"editdisciDeletarpushButton")
+
+        self.horizontalLayout_19.addWidget(self.editdisciDeletarpushButton)
+
+
+        self.gridLayout_5.addLayout(self.horizontalLayout_19, 2, 0, 1, 1)
+
+        self.label_4 = QLabel(self.page_novdisci)
+        self.label_4.setObjectName(u"label_4")
+
+        self.gridLayout_5.addWidget(self.label_4, 0, 0, 1, 1)
+
+        self.novdiscitableWidget = QTableWidget(self.page_novdisci)
+        self.novdiscitableWidget.setObjectName(u"novdiscitableWidget")
+
+        self.gridLayout_5.addWidget(self.novdiscitableWidget, 1, 0, 1, 1)
 
         self.verticalLayout_10 = QVBoxLayout()
         self.verticalLayout_10.setObjectName(u"verticalLayout_10")
@@ -718,7 +728,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 401, 21))
+        self.menubar.setGeometry(QRect(0, 0, 606, 21))
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QStatusBar(MainWindow)
         self.statusbar.setObjectName(u"statusbar")
@@ -789,8 +799,9 @@ class Ui_MainWindow(object):
         self.label_3.setText(QCoreApplication.translate("MainWindow", u"Nota:", None))
         self.novnotasalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.novnotaretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
-        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Nova Disciplina", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Disciplina:", None))
+        self.editdisciDeletarpushButton.setText(QCoreApplication.translate("MainWindow", u"Apagar Disciplina", None))
+        self.label_4.setText(QCoreApplication.translate("MainWindow", u"Nova Disciplina", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Carga Hor\u00e1ria:", None))
         self.label_6.setText(QCoreApplication.translate("MainWindow", u"Horas Aulas", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Hor\u00e1rio:", None))

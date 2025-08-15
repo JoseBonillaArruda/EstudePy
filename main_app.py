@@ -3,6 +3,7 @@ import sys
 import os
 #pacotes terceiros
 from PySide6.QtWidgets import *
+from PySide6.QtCore import QTime
 #pacotes do projeto
 from EstudePy import Ui_MainWindow
 from db_sqlite import DB_connect
@@ -13,7 +14,8 @@ class MainWindow(QMainWindow):
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
         self.Lista_Disciplina()
-
+        self.lista_ID = db.listarDisciplinas()
+        self.disci_id_atual = 0
         geralpagebutton = [
             self.ui.GeralpushButton,
             self.ui.novdisciretornapushButton
@@ -36,11 +38,16 @@ class MainWindow(QMainWindow):
         self.ui.discieditardidscipushButton.clicked.connect(self.editdisci_page)
         self.ui.novdiscisalvapushButton.clicked.connect(self.reg_nova_disciplina)
         self.ui.listDiscicomboBox.currentIndexChanged.connect(self.disci_page)
+        self.ui.marcpressalvapushButton.clicked.connect(self.MarcarPresenca)
+        self.ui.editdiscisalvapushButton.clicked.connect(self.EditarDisciplina)
+        self.ui.novnotasalvapushButton.clicked.connect(self.addNotas)
 
         daylist = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado']
         self.ui.novdiscidiacomboBox.addItems(daylist)
+        self.ui.editdiscidiacomboBox.addItems(daylist)
         tipomedialist = ['Aritmética','Ponderada']
         self.ui.novdiscitipomediacomboBox.addItems(tipomedialist)
+        self.ui.editdiscitipomediacomboBox.addItems(tipomedialist)
 
     
     def reg_nova_disciplina(self):
@@ -51,7 +58,9 @@ class MainWindow(QMainWindow):
         tipomedia = self.ui.novdiscitipomediacomboBox.currentText()
         db.novaDisciplina(disciplina,tipomedia,carga,horario,local)
         self.Lista_Disciplina()
+        self.lista_ID = db.listarDisciplinas()
         self.ui.listDiscicomboBox.setCurrentIndex(self.ui.listDiscicomboBox.count() - 1)
+        self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
         self.disci_page()
 
 
@@ -59,7 +68,8 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def disci_page(self):
-        disci = db.getDisciplinaPorId(self.ui.listDiscicomboBox.currentIndex())
+        self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
+        disci = db.getDisciplinaPorId(self.disci_id_atual)
         disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),(disci.get('qtd_presenca')/disci.get('carga_horaria')*100)]
         self.ui.discipresencatableWidget.setRowCount(3)
         self.ui.discipresencatableWidget.setColumnCount(1)
@@ -68,24 +78,87 @@ class MainWindow(QMainWindow):
         for i in range(3):
             item = QTableWidgetItem(str(disci_pres[i]))
             self.ui.discipresencatableWidget.setItem(i, 0, item)
-            
+
+        disci_notas = db.getNotasPorId(self.disci_id_atual)
+        num_notas = sum(isinstance(item, tuple) for item in disci_notas)
+        if disci['tipo_media'] == 'Aritmética':
+            media = sum(disci_notas[i][2] for i in range(num_notas)) / num_notas if num_notas > 0 else 0
+        elif disci['tipo_media'] == 'Ponderada':
+            total_peso = sum(disci_notas[i][3] for i in range(num_notas))
+            if total_peso > 0:
+                media = sum(disci_notas[i][2] * disci_notas[i][3] for i in range(num_notas)) / total_peso
+            else:
+                media = 0
+
+        self.ui.discinotatableWidget.setRowCount(num_notas+1)
+        self.ui.discinotatableWidget.setColumnCount(2)
+        self.ui.discinotatableWidget.setHorizontalHeaderLabels(['Nota', 'Peso'])
+        for i in range(num_notas):
+            for j in range(2):
+                item = QTableWidgetItem(str(disci_notas[i][j+2]))
+                self.ui.discinotatableWidget.setItem(i, j, item)
+        
+        self.ui.discinotatableWidget.setItem(num_notas, 0, QTableWidgetItem('Média'))
+        self.ui.discinotatableWidget.setItem(num_notas, 1, QTableWidgetItem(str(f'{media:.2f}')))
+
+
+    
         self.ui.stackedWidget.setCurrentIndex(1)
 
     def novnota_page(self):
+        #TODO notas = db.getNotasPorId(self.disci_id_atual)
+        #self.ui.novnotatableWidget.setRowCount(len(notas))
+        #self.ui.novnotatableWidget.setColumnCount(1)
+        #self.ui.novnotatableWidget.setHorizontalHeaderLabels(['Disciplina','Nota'])
+        #for i in range(len(notas)):
+        #    item = QTableWidgetItem(str(notas[i][1]))
+        #    self.ui.novnotatableWidget.setItem(i, 0, item)
         self.ui.stackedWidget.setCurrentIndex(2)
 
     def novdisci_page(self):
+        disci = []
+        for i in range(self.ui.listDiscicomboBox.count()):
+            disci.append(db.getDisciplinaPorId(i))
+        disci.pop(0)
+        num_disci = sum(isinstance(item, dict) for item in disci)
+        self.ui.novdiscitableWidget.setRowCount(num_disci)
+        self.ui.novdiscitableWidget.setColumnCount(8)
+        self.ui.novdiscitableWidget.setHorizontalHeaderLabels(['ID', 'Disciplina', 'Média', 'Tipo Média', 'Carga Horária', 'Qtd Presença', 'Local', 'Horário'])
+        keylist = ['id', 'disciplina', 'media', 'tipo_media', 'carga_horaria', 'qtd_presenca', 'local', 'horario']
+        for i in range(num_disci):
+            for j in range(8):
+                item = QTableWidgetItem(str(disci[i].get(keylist[j])))
+                self.ui.novdiscitableWidget.setItem(i, j, item)
+
         self.ui.stackedWidget.setCurrentIndex(3)
     
     def editnota_page(self):
         self.ui.stackedWidget.setCurrentIndex(4)
     
     def editdisci_page(self):
+        disci = db.getDisciplinaPorId(self.disci_id_atual)
+        self.ui.editdiscitableWidget.setRowCount(1)
+        self.ui.editdiscitableWidget.setColumnCount(8)
+        self.ui.editdiscitableWidget.setHorizontalHeaderLabels(['ID', 'Disciplina', 'Média', 'Tipo Média', 'Carga Horária', 'Qtd Presença', 'Local', 'Horário'])
+        keylist = ['id', 'disciplina', 'media', 'tipo_media', 'carga_horaria', 'qtd_presenca', 'local', 'horario']
+        for j in range(8):
+            item = QTableWidgetItem(str(disci.get(keylist[j])))
+            self.ui.editdiscitableWidget.setItem(0, j, item)
+            self.ui.editdiscicargahoraspinBox_4.setValue(disci['carga_horaria'])
+
+        self.ui.editdiscinomelineEdit.setText(disci['disciplina'])
+        self.ui.editdiscilocallineEdit.setText(disci['local'])
+        self.ui.editdiscitipomediacomboBox.setCurrentText(disci['tipo_media'])
+        dia, hora = disci['horario'].split(' ')
+        self.ui.editdiscidiacomboBox.setCurrentText(dia)
+        self.ui.editdiscihorariotimeEdit.setTime(QTime.fromString(hora, 'hh:mm'))
+        
+    
         self.ui.stackedWidget.setCurrentIndex(5)
 
 
     def marcpres_page(self):
-        disci = db.getDisciplinaPorId(self.ui.listDiscicomboBox.currentIndex())
+        disci = db.getDisciplinaPorId(self.disci_id_atual)
         disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),(disci.get('qtd_presenca')/disci.get('carga_horaria')*100)]
         self.ui.marcprestableWidget.setRowCount(1)
         self.ui.marcprestableWidget.setColumnCount(3)
@@ -102,7 +175,36 @@ class MainWindow(QMainWindow):
         disciplinas = db.listarDisciplinas()
         for disciplina in disciplinas:
             self.ui.listDiscicomboBox.addItem(f"{disciplina[0]} - {disciplina[1]}")
-        
+    
+
+    def MarcarPresenca(self):
+        disciplina_id = self.disci_id_atual
+        qtd_presenca = self.ui.marcpresspinBox.value()
+        db.marcarPresenca(disciplina_id,qtd_presenca)
+        self.disci_page()
+    
+
+    def EditarDisciplina(self):
+        disciNome = self.ui.editdiscinomelineEdit.text()
+        carga = self.ui.editdiscicargahoraspinBox_4.value()
+        presenca = self.ui.editdiscipresencaspinBox.value()
+        tipo_media = self.ui.editdiscitipomediacomboBox.currentText()
+        local = self.ui.editdiscilocallineEdit.text()
+        horario = f'{self.ui.editdiscidiacomboBox.currentText()} {self.ui.editdiscihorariotimeEdit.text()}'
+        db.editarDisciplina(self.disci_id_atual, disciNome, tipo_media, carga, presenca, local, horario)
+        self.disci_page()
+    
+
+    def addNotas(self):
+        nota = self.ui.novnotadoubleSpinBox.value()
+        peso = self.ui.novnotapesospinBox.value()
+        db.addNotas(self.disci_id_atual, nota, peso)
+        self.disci_page()
+
+
+    def ApagarDisciplina(self, ID):
+        db.removerDisciplina(ID)
+        self.geral_page()
 
 
 if __name__ == '__main__':
