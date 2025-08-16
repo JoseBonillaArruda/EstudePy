@@ -16,6 +16,7 @@ class MainWindow(QMainWindow):
         self.Lista_Disciplina()
         self.lista_ID = db.listarDisciplinas()
         self.disci_id_atual = 0
+        db.novaAnotacao(self.disci_id_atual, 'ESTUDEPY - Anotações')
         geralpagebutton = [
             self.ui.GeralpushButton,
             self.ui.novdisciretornapushButton
@@ -43,6 +44,9 @@ class MainWindow(QMainWindow):
         self.ui.novnotasalvapushButton.clicked.connect(self.addNotas)
         self.ui.editnotsalvapushButton.clicked.connect(self.EditarNota)
         self.ui.editnotadeletepushButton.clicked.connect(self.RemoverNota)
+        self.ui.editdiscideletepushButton.clicked.connect(self.ApagarDisciplina)
+        self.ui.geralanotapushButton.clicked.connect(self.SalvarAnotacao)
+        self.ui.discianotapushButton.clicked.connect(self.SalvarAnotacao)
 
         daylist = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado']
         self.ui.novdiscidiacomboBox.addItems(daylist)
@@ -62,16 +66,15 @@ class MainWindow(QMainWindow):
         db.novaDisciplina(disciplina,tipomedia,carga,horario,local)
         self.Lista_Disciplina()
         self.lista_ID = db.listarDisciplinas()
+        db.novaAnotacao(self.lista_ID[-1][0], 'ESTUDEPY - Anotações')
         self.ui.listDiscicomboBox.setCurrentIndex(self.ui.listDiscicomboBox.count() - 1)
-        self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
-
 
     def geral_page(self):
         self.ui.listDiscicomboBox.setCurrentIndex(0)
+        self.disci_id_atual = 0
         disci = []
-        for i in range(self.ui.listDiscicomboBox.count()):
-            disci.append(db.getDisciplinaPorId(i))
-        disci.pop(0)
+        for i in range(self.ui.listDiscicomboBox.count()-1):
+            disci.append(db.getDisciplinaPorId(self.lista_ID[i][0]))
         num_disci = sum(isinstance(item, dict) for item in disci)
         self.ui.geraldiscitableWidget.setRowCount(num_disci)
         self.ui.geraldiscitableWidget.setColumnCount(8)
@@ -81,6 +84,7 @@ class MainWindow(QMainWindow):
             for j in range(8):
                 item = QTableWidgetItem(str(disci[i].get(keylist[j])))
                 self.ui.geraldiscitableWidget.setItem(i, j, item)
+        self.Anotacao(self.ui.geralanotatextBrowser)
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def disci_page(self):
@@ -123,6 +127,7 @@ class MainWindow(QMainWindow):
         for j in range(3):
             item = QTableWidgetItem(str(disci_info[j]))
             self.ui.discihorariotableWidget.setItem(0, j, item)
+        self.Anotacao(self.ui.discianotatextBrowser)
         self.ui.stackedWidget.setCurrentIndex(1)
 
     def novnota_page(self):
@@ -196,7 +201,6 @@ class MainWindow(QMainWindow):
     
         self.ui.stackedWidget.setCurrentIndex(5)
 
-
     def marcpres_page(self):
         disci = db.getDisciplinaPorId(self.disci_id_atual)
         disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f'{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%']
@@ -258,10 +262,22 @@ class MainWindow(QMainWindow):
         self.editnota_page()
 
 
-    def ApagarDisciplina(self, ID):
-        db.removerDisciplina(ID)
+    def ApagarDisciplina(self):
+        db.removerDisciplina(self.disci_id_atual)
+        self.Lista_Disciplina()
         self.geral_page()
 
+    def Anotacao(self,textbrowser):
+        anotacao = db.getAnotacoesPorId(self.disci_id_atual)
+        textbrowser.setText(anotacao[0])
+
+    def SalvarAnotacao(self):
+        if self.disci_id_atual == 0:
+            textbrowser = self.ui.geralanotatextBrowser
+        else:
+            textbrowser = self.ui.discianotatextBrowser
+        anotacao = textbrowser.toPlainText()
+        db.editarAnotacao(self.disci_id_atual, anotacao)
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

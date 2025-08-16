@@ -155,6 +155,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
         self.discianotatextBrowser = QTextBrowser(self.tab_1)
         self.discianotatextBrowser.setObjectName(u"discianotatextBrowser")
+        self.discianotatextBrowser.setReadOnly(False)
 
         self.verticalLayout_4.addWidget(self.discianotatextBrowser)
 
@@ -266,11 +267,6 @@ class Ui_MainWindow(object):
 
 
         self.horizontalLayout_19.addLayout(self.horizontalLayout_17)
-
-        self.editdisciDeletarpushButton = QPushButton(self.page_novdisci)
-        self.editdisciDeletarpushButton.setObjectName(u"editdisciDeletarpushButton")
-
-        self.horizontalLayout_19.addWidget(self.editdisciDeletarpushButton)
 
 
         self.gridLayout_5.addLayout(self.horizontalLayout_19, 2, 0, 1, 1)
@@ -507,6 +503,8 @@ class Ui_MainWindow(object):
 
         self.gridLayout_9.addWidget(self.editdiscitableWidget, 1, 0, 1, 1)
 
+        self.horizontalLayout_11 = QHBoxLayout()
+        self.horizontalLayout_11.setObjectName(u"horizontalLayout_11")
         self.horizontalLayout_18 = QHBoxLayout()
         self.horizontalLayout_18.setObjectName(u"horizontalLayout_18")
         self.label_16 = QLabel(self.page_editardisci)
@@ -520,7 +518,15 @@ class Ui_MainWindow(object):
         self.horizontalLayout_18.addWidget(self.editdiscinomelineEdit)
 
 
-        self.gridLayout_9.addLayout(self.horizontalLayout_18, 2, 0, 1, 1)
+        self.horizontalLayout_11.addLayout(self.horizontalLayout_18)
+
+        self.editdiscideletepushButton = QPushButton(self.page_editardisci)
+        self.editdiscideletepushButton.setObjectName(u"editdiscideletepushButton")
+
+        self.horizontalLayout_11.addWidget(self.editdiscideletepushButton)
+
+
+        self.gridLayout_9.addLayout(self.horizontalLayout_11, 2, 0, 1, 1)
 
         self.horizontalLayout_34 = QHBoxLayout()
         self.horizontalLayout_34.setObjectName(u"horizontalLayout_34")
@@ -800,10 +806,9 @@ class Ui_MainWindow(object):
         self.novnotasalvapushButton.setText(QCoreApplication.translate("MainWindow", u"Salvar", None))
         self.novnotaretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
         self.label_14.setText(QCoreApplication.translate("MainWindow", u"Disciplina:", None))
-        self.editdisciDeletarpushButton.setText(QCoreApplication.translate("MainWindow", u"Apagar Disciplina", None))
         self.label_4.setText(QCoreApplication.translate("MainWindow", u"Nova Disciplina", None))
         self.label_5.setText(QCoreApplication.translate("MainWindow", u"Carga Hor\u00e1ria:", None))
-        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Horas Aulas", None))
+        self.label_6.setText(QCoreApplication.translate("MainWindow", u"Aulas", None))
         self.label_7.setText(QCoreApplication.translate("MainWindow", u"Hor\u00e1rio:", None))
         self.label_8.setText(QCoreApplication.translate("MainWindow", u"Local:", None))
         self.label_9.setText(QCoreApplication.translate("MainWindow", u"Tipo de M\u00e9dia:", None))
@@ -817,6 +822,7 @@ class Ui_MainWindow(object):
         self.editnotaretornapushButton.setText(QCoreApplication.translate("MainWindow", u"Retornar", None))
         self.label_34.setText(QCoreApplication.translate("MainWindow", u"Editar Disciplina", None))
         self.label_16.setText(QCoreApplication.translate("MainWindow", u"Disciplina:", None))
+        self.editdiscideletepushButton.setText(QCoreApplication.translate("MainWindow", u"Apagar Disciplina", None))
         self.label_29.setText(QCoreApplication.translate("MainWindow", u"Carga Hor\u00e1ria:", None))
         self.label_30.setText(QCoreApplication.translate("MainWindow", u"Aulas", None))
         self.label_35.setText(QCoreApplication.translate("MainWindow", u"Presen\u00e7a:", None))

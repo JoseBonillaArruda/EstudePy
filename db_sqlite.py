@@ -3,11 +3,10 @@ from sqlite3 import connect, IntegrityError
 #Classe principal:
 class DB_connect():
     def __init__(self) -> None:
-        self.con = connect("teste.db") #Cria o banco de dados para testes
-        #self.con = connect("SoftwareDB.db")
+        self.con = connect("EstudePy.db")
         self.cursor = self.con.cursor()
         
-        self.cursor.execute("PRAGMA foreign_keys = ON;")
+        #self.cursor.execute("PRAGMA foreign_keys = ON;")
 
 
     def __IsTable(self, table_name: str):
@@ -18,12 +17,6 @@ class DB_connect():
 
     
     def iniciarBD(self)-> None:
-        # self.cursor.execute("DROP TABLE anotacoes;")
-        # self.con.commit()
-        # self.cursor.execute("DROP TABLE notas;")
-        # self.con.commit()
-        # self.cursor.execute("DROP TABLE disciplinas;")
-        # self.con.commit()
 
         #Cria a Tabela de Disciplinas:
         Table = self.__IsTable("disciplinas")
@@ -60,9 +53,8 @@ class DB_connect():
             self.cursor.execute("""
                 CREATE TABLE anotacoes (
                     id INTEGER PRIMARY KEY AUTOINCREMENT,
-                    titulo TEXT NOT NULL,
-                    anotacao TEXT NOT NULL,
                     id_disciplina INTEGER NOT NULL,
+                    anotacao TEXT NOT NULL,
                     FOREIGN KEY (id_disciplina) REFERENCES disciplinas(id) ON DELETE CASCADE
                 );"""
             )
@@ -89,15 +81,15 @@ class DB_connect():
             return f"Sucesso ao acrecentar {disciplina} nas disciplinas"
 
 
-    def removerDisciplina(self, disciplina: str) -> str:
+    def removerDisciplina(self, id_disciplina: int) -> str:
         #Remove uma disciplina
         try:
-            self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
-            id_disciplina = self.cursor.fetchone()[0]
-
             self.cursor.execute("DELETE FROM disciplinas WHERE id=?;", (id_disciplina,))
+            self.cursor.execute("DELETE FROM notas WHERE id_disciplina=?;", (id_disciplina,))
+            self.cursor.execute("DELETE FROM anotacoes WHERE id_disciplina=?;", (id_disciplina,))
+            self.con.commit()
         except TypeError as e:
-            print(f"Discipliana {disciplina} não encontrado!\nERRO: {e}")
+            print(f"Disciplina não encontrado!\nERRO: {e}")
 
             return f"Disciplina não encontrado"
         except Exception as e:
@@ -105,9 +97,9 @@ class DB_connect():
 
             return "Houve um erro!"
         else:
-            print(f"Remoção de {disciplina} concluido com sucesso")
+            print(f"Remoção de disciplina concluido com sucesso")
 
-            return f"Remoção de {disciplina} concluido com sucesso"
+            return f"Remoção de disciplina concluido com sucesso"
 
 
     def listarDisciplinas(self):
@@ -142,24 +134,16 @@ class DB_connect():
         self.con.commit()
 
 
-    def novaAnotacao(self, disciplina: str, anotacao: str, titulo = None) -> None:
+    def novaAnotacao(self, id_disciplina: int, anotacao: str) -> None:
         #Adiciona uma nova anotação
+        self.cursor.execute("SELECT 1 FROM anotacoes WHERE id_disciplina = ?", (id_disciplina,))
+        existe = self.cursor.fetchone()
+        if existe:
+            print("Já existe uma anotação para esta disciplina.")
+            return "Já existe uma anotação para esta disciplina."
         try:
-            self.cursor.execute("SELECT id FROM disciplinas WHERE disciplina=?;", (disciplina,))
-            id_disciplina = self.cursor.fetchone()[0]
-
-            if not titulo:
-                titulo = anotacao[:20].strip().replace("\n", " ")
-                titulo = titulo[:22] + "..." if len(anotacao.strip()) > 25 else titulo
-            elif len(titulo) > 25:
-                titulo = titulo[:22] + "..."
-
-            if anotacao.strip() != "":
-                self.cursor.execute("INSERT INTO anotacoes(titulo, anotacao, id_disciplina) VALUES (?, ?, ?);", (titulo ,anotacao, id_disciplina,))
-                self.con.commit()
-            else:
-                print("Anotação está vazia.")
-        
+            self.cursor.execute("INSERT INTO anotacoes(id_disciplina, anotacao) VALUES (?, ?);", (id_disciplina, anotacao,))
+            self.con.commit()
         except TypeError as e:
             print(f"Houve um erro ao salvar a anotação\nErro: {e}")
             
@@ -172,6 +156,23 @@ class DB_connect():
             print("Anotação salva com sucesso")
 
             return "Anotação salva com sucesso"
+        
+    
+    def editarAnotacao(self, id_disciplina: int, nova_anotacao: str) -> None:
+        #Atualiza o texto de uma anotação específica.
+        try:
+            self.cursor.execute("UPDATE anotacoes SET anotacao = ? WHERE id_disciplina = ?", (nova_anotacao, id_disciplina,))
+            self.con.commit()
+        except Exception as e:
+            print(f"Houve um erro ao editar a anotação\nErro: {e}")
+        else:
+            print("Anotação editada com sucesso")
+        
+    
+    def getAnotacoesPorId(self, id_disciplina: int):
+        #Retorna todas as anotações da tabela 'anotacoes' para o id da disciplina informado.
+        self.cursor.execute("SELECT anotacao FROM anotacoes WHERE id_disciplina = ?", (id_disciplina,))
+        return self.cursor.fetchone()
 
 
     def addNotas(self, id_disciplina: int, nota: float,peso:int):
