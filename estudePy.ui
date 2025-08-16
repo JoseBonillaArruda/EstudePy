@@ -310,13 +310,6 @@
             </item>
            </layout>
           </item>
-          <item>
-           <widget class="QPushButton" name="editdisciDeletarpushButton">
-            <property name="text">
-             <string>Apagar Disciplina</string>
-            </property>
-           </widget>
-          </item>
          </layout>
         </item>
         <item row="0" column="0">
@@ -348,7 +341,7 @@
               <item>
                <widget class="QLabel" name="label_6">
                 <property name="text">
-                 <string>Horas Aulas</string>
+                 <string>Aulas</string>
                 </property>
                </widget>
               </item>
@@ -595,16 +588,27 @@
          <widget class="QTableWidget" name="editdiscitableWidget"/>
         </item>
         <item row="2" column="0">
-         <layout class="QHBoxLayout" name="horizontalLayout_18">
+         <layout class="QHBoxLayout" name="horizontalLayout_11">
           <item>
-           <widget class="QLabel" name="label_16">
-            <property name="text">
-             <string>Disciplina:</string>
-            </property>
-           </widget>
+           <layout class="QHBoxLayout" name="horizontalLayout_18">
+            <item>
+             <widget class="QLabel" name="label_16">
+              <property name="text">
+               <string>Disciplina:</string>
+              </property>
+             </widget>
+            </item>
+            <item>
+             <widget class="QLineEdit" name="editdiscinomelineEdit"/>
+            </item>
+           </layout>
           </item>
           <item>
-           <widget class="QLineEdit" name="editdiscinomelineEdit"/>
+           <widget class="QPushButton" name="pushButton">
+            <property name="text">
+             <string>Apagar Disciplina</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </item>

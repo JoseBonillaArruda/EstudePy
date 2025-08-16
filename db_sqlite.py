@@ -209,8 +209,17 @@ class DB_connect():
             "UPDATE disciplinas SET media = ? WHERE id = ?;", (media, id_disciplina)
         )
         self.con.commit()
+    
 
-
+    def removerNota(self, id_nota: int) -> None:
+        #Remove uma nota específica da tabela notas.
+        try:
+            self.cursor.execute("DELETE FROM notas WHERE id_notas = ?", (id_nota,))
+            self.con.commit()
+        except Exception as e:
+            print(f"Houve um erro ao remover a nota\nErro: {e}")
+        else:
+            print("Nota removida com sucesso")
 
 
     def getDisciplinaPorId(self, id_disciplina: int) -> dict:

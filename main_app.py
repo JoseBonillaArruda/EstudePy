@@ -42,6 +42,7 @@ class MainWindow(QMainWindow):
         self.ui.editdiscisalvapushButton.clicked.connect(self.EditarDisciplina)
         self.ui.novnotasalvapushButton.clicked.connect(self.addNotas)
         self.ui.editnotsalvapushButton.clicked.connect(self.EditarNota)
+        self.ui.editnotadeletepushButton.clicked.connect(self.RemoverNota)
 
         daylist = ['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado']
         self.ui.novdiscidiacomboBox.addItems(daylist)
@@ -63,7 +64,6 @@ class MainWindow(QMainWindow):
         self.lista_ID = db.listarDisciplinas()
         self.ui.listDiscicomboBox.setCurrentIndex(self.ui.listDiscicomboBox.count() - 1)
         self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
-        self.disci_page()
 
 
     def geral_page(self):
@@ -86,7 +86,7 @@ class MainWindow(QMainWindow):
     def disci_page(self):
         self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
         disci = db.getDisciplinaPorId(self.disci_id_atual)
-        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),(disci.get('qtd_presenca')/disci.get('carga_horaria')*100)]
+        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f'{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%']
         self.ui.discipresencatableWidget.setRowCount(1)
         self.ui.discipresencatableWidget.setColumnCount(3)
         self.ui.discipresencatableWidget.setVerticalHeaderLabels([''])
@@ -160,11 +160,14 @@ class MainWindow(QMainWindow):
         num_notas = sum(isinstance(item, tuple) for item in disci_notas)
         notas_id =[str(disci_notas[i][0]) for i in range(num_notas)]
         self.ui.editnotatableWidget.setRowCount(num_notas)
-        self.ui.editnotatableWidget.setColumnCount(2)
-        self.ui.editnotatableWidget.setHorizontalHeaderLabels(['Nota', 'Peso'])
+        self.ui.editnotatableWidget.setColumnCount(3)
+        self.ui.editnotatableWidget.setHorizontalHeaderLabels(['ID','Nota', 'Peso'])
         for i in range(num_notas):
-            for j in range(2):
-                item = QTableWidgetItem(str(disci_notas[i][j+2]))
+            for j in range(3):
+                if j== 0:
+                    item = QTableWidgetItem(str(disci_notas[i][0]))
+                else:
+                    item = QTableWidgetItem(str(disci_notas[i][j+1]))
                 self.ui.editnotatableWidget.setItem(i, j, item)
         self.ui.editnotaselectcomboBox.clear()
         self.ui.editnotaselectcomboBox.addItem('Notas...')
@@ -196,13 +199,15 @@ class MainWindow(QMainWindow):
 
     def marcpres_page(self):
         disci = db.getDisciplinaPorId(self.disci_id_atual)
-        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),(disci.get('qtd_presenca')/disci.get('carga_horaria')*100)]
+        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f'{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%']
         self.ui.marcprestableWidget.setRowCount(1)
         self.ui.marcprestableWidget.setColumnCount(3)
         self.ui.marcprestableWidget.setHorizontalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
         for j in range(3):
             item = QTableWidgetItem(str(disci_pres[j]))
             self.ui.marcprestableWidget.setItem(0, j, item)
+        self.ui.marcpresspinBox.setMaximum(disci.get('carga_horaria') - disci.get('qtd_presenca'))
+        self.ui.marcpresspinBox.setMinimum(-disci.get('qtd_presenca'))
         self.ui.stackedWidget.setCurrentIndex(6)
 
 
@@ -244,6 +249,12 @@ class MainWindow(QMainWindow):
         peso = self.ui.editnotaspinBox.value()
         nota_id = int(self.ui.editnotaselectcomboBox.currentText())
         db.editarNota(nota_id, nota, peso)
+        self.editnota_page()
+    
+
+    def RemoverNota(self):
+        nota_id = int(self.ui.editnotaselectcomboBox.currentText())
+        db.removerNota(nota_id)
         self.editnota_page()
 
 
