@@ -88,47 +88,50 @@ class MainWindow(QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(0)
 
     def disci_page(self):
-        self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
-        disci = db.getDisciplinaPorId(self.disci_id_atual)
-        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f'{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%']
-        self.ui.discipresencatableWidget.setRowCount(1)
-        self.ui.discipresencatableWidget.setColumnCount(3)
-        self.ui.discipresencatableWidget.setVerticalHeaderLabels([''])
-        self.ui.discipresencatableWidget.setHorizontalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
-        for i in range(3):
-            item = QTableWidgetItem(str(disci_pres[i]))
-            self.ui.discipresencatableWidget.setItem(0, i, item)
+        if self.ui.listDiscicomboBox.currentIndex() == 0:
+            self.geral_page()
+        else:
+            self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
+            disci = db.getDisciplinaPorId(self.disci_id_atual)
+            disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f'{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%']
+            self.ui.discipresencatableWidget.setRowCount(1)
+            self.ui.discipresencatableWidget.setColumnCount(3)
+            self.ui.discipresencatableWidget.setVerticalHeaderLabels([''])
+            self.ui.discipresencatableWidget.setHorizontalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
+            for i in range(3):
+                item = QTableWidgetItem(str(disci_pres[i]))
+                self.ui.discipresencatableWidget.setItem(0, i, item)
 
-        disci_notas = db.getNotasPorId(self.disci_id_atual)
-        num_notas = sum(isinstance(item, tuple) for item in disci_notas)
-        if disci['tipo_media'] == 'Aritmética':
-            media = sum(disci_notas[i][2] for i in range(num_notas)) / num_notas if num_notas > 0 else 0
-        elif disci['tipo_media'] == 'Ponderada':
-            total_peso = sum(disci_notas[i][3] for i in range(num_notas))
-            if total_peso > 0:
-                media = sum(disci_notas[i][2] * disci_notas[i][3] for i in range(num_notas)) / total_peso
-            else:
-                media = 0
-        db.RegMedia(self.disci_id_atual,media)
-        self.ui.discinotatableWidget.setRowCount(num_notas+1)
-        self.ui.discinotatableWidget.setColumnCount(2)
-        self.ui.discinotatableWidget.setHorizontalHeaderLabels(['Nota', 'Peso'])
-        for i in range(num_notas):
-            for j in range(2):
-                item = QTableWidgetItem(str(disci_notas[i][j+2]))
-                self.ui.discinotatableWidget.setItem(i, j, item)
-        
-        self.ui.discinotatableWidget.setItem(num_notas, 0, QTableWidgetItem('Média'))
-        self.ui.discinotatableWidget.setItem(num_notas, 1, QTableWidgetItem(str(f'{media:.2f}')))
-        disci_info = [disci.get('disciplina'),disci.get('horario'),disci.get('local')]
-        self.ui.discihorariotableWidget.setRowCount(1)
-        self.ui.discihorariotableWidget.setColumnCount(3)
-        self.ui.discihorariotableWidget.setHorizontalHeaderLabels(['Disciplina', 'Horário', 'Local'])
-        for j in range(3):
-            item = QTableWidgetItem(str(disci_info[j]))
-            self.ui.discihorariotableWidget.setItem(0, j, item)
-        self.Anotacao(self.ui.discianotatextBrowser)
-        self.ui.stackedWidget.setCurrentIndex(1)
+            disci_notas = db.getNotasPorId(self.disci_id_atual)
+            num_notas = sum(isinstance(item, tuple) for item in disci_notas)
+            if disci['tipo_media'] == 'Aritmética':
+                media = sum(disci_notas[i][2] for i in range(num_notas)) / num_notas if num_notas > 0 else 0
+            elif disci['tipo_media'] == 'Ponderada':
+                total_peso = sum(disci_notas[i][3] for i in range(num_notas))
+                if total_peso > 0:
+                    media = sum(disci_notas[i][2] * disci_notas[i][3] for i in range(num_notas)) / total_peso
+                else:
+                    media = 0
+            db.RegMedia(self.disci_id_atual,media)
+            self.ui.discinotatableWidget.setRowCount(num_notas+1)
+            self.ui.discinotatableWidget.setColumnCount(2)
+            self.ui.discinotatableWidget.setHorizontalHeaderLabels(['Nota', 'Peso'])
+            for i in range(num_notas):
+                for j in range(2):
+                    item = QTableWidgetItem(str(disci_notas[i][j+2]))
+                    self.ui.discinotatableWidget.setItem(i, j, item)
+
+            self.ui.discinotatableWidget.setItem(num_notas, 0, QTableWidgetItem('Média'))
+            self.ui.discinotatableWidget.setItem(num_notas, 1, QTableWidgetItem(str(f'{media:.2f}')))
+            disci_info = [disci.get('disciplina'),disci.get('horario'),disci.get('local')]
+            self.ui.discihorariotableWidget.setRowCount(1)
+            self.ui.discihorariotableWidget.setColumnCount(3)
+            self.ui.discihorariotableWidget.setHorizontalHeaderLabels(['Disciplina', 'Horário', 'Local'])
+            for j in range(3):
+                item = QTableWidgetItem(str(disci_info[j]))
+                self.ui.discihorariotableWidget.setItem(0, j, item)
+            self.Anotacao(self.ui.discianotatextBrowser)
+            self.ui.stackedWidget.setCurrentIndex(1)
 
     def novnota_page(self):
         disci_notas = db.getNotasPorId(self.disci_id_atual)
@@ -265,7 +268,8 @@ class MainWindow(QMainWindow):
     def ApagarDisciplina(self):
         db.removerDisciplina(self.disci_id_atual)
         self.Lista_Disciplina()
-        self.geral_page()
+        self.lista_ID = db.listarDisciplinas()
+        self.ui.listDiscicomboBox.setCurrentIndex(0)
 
     def Anotacao(self,textbrowser):
         anotacao = db.getAnotacoesPorId(self.disci_id_atual)
