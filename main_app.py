@@ -173,6 +173,7 @@ class MainWindow(QMainWindow):
             for j in range(8):
                 item = QTableWidgetItem(str(disci[i].get(keylist[j])))
                 self.ui.novdiscitableWidget.setItem(i, j, item)
+        self.ui.novdiscicargahoraspinBox.setMinimum(1)
 
         self.ui.stackedWidget.setCurrentIndex(3) # muda para a página de nova disciplina
     
