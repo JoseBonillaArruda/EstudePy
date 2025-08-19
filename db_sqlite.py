@@ -104,7 +104,7 @@ class DB_connect():
 
     def listarDisciplinas(self):
           #Retorna uma lista de tuplas (id, disciplina) da tabela disciplinas.
-          self.cursor.execute("SELECT id, disciplina FROM disciplinas")
+          self.cursor.execute("SELECT id, disciplina FROM disciplinas ORDER BY id")
           return self.cursor.fetchall()
     
 
