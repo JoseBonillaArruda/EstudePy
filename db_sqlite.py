@@ -3,21 +3,19 @@ from sqlite3 import connect, IntegrityError
 #Classe principal:
 class DB_connect():
     def __init__(self) -> None:
-        self.con = connect("EstudePy.db")
-        self.cursor = self.con.cursor()
-        
-        #self.cursor.execute("PRAGMA foreign_keys = ON;")
+        self.con = connect("EstudePy.db") #Cria ou conecta ao banco de dados
+        self.cursor = self.con.cursor() #Cursor para manipulação do Banco de dados
 
 
-    def __IsTable(self, table_name: str):
+    def __IsTable(self, table_name: str) -> tuple:
+        #Método para veirificar a existencia da tabela informada
         self.cursor.execute(f"SELECT * FROM Sqlite_master WHERE type='table' AND name='{table_name}'")
         table = self.cursor.fetchone()
 
-        return table
+        return table #Retorna o Resultado da pesquisa
 
     
     def iniciarBD(self)-> None:
-
         #Cria a Tabela de Disciplinas:
         Table = self.__IsTable("disciplinas")
         if Table == None:
@@ -84,9 +82,9 @@ class DB_connect():
     def removerDisciplina(self, id_disciplina: int) -> str:
         #Remove uma disciplina
         try:
-            self.cursor.execute("DELETE FROM disciplinas WHERE id=?;", (id_disciplina,))
-            self.cursor.execute("DELETE FROM notas WHERE id_disciplina=?;", (id_disciplina,))
-            self.cursor.execute("DELETE FROM anotacoes WHERE id_disciplina=?;", (id_disciplina,))
+            self.cursor.execute("DELETE FROM disciplinas WHERE id=?;", (id_disciplina,)) #Deleta disciplina
+            self.cursor.execute("DELETE FROM notas WHERE id_disciplina=?;", (id_disciplina,)) #Deleta notas viculada a disciplina
+            self.cursor.execute("DELETE FROM anotacoes WHERE id_disciplina=?;", (id_disciplina,)) #Deleta anotações vinculada a disciplina
             self.con.commit()
         except TypeError as e:
             print(f"Disciplina não encontrado!\nERRO: {e}")
@@ -104,20 +102,19 @@ class DB_connect():
 
     def listarDisciplinas(self):
           #Retorna uma lista de tuplas (id, disciplina) da tabela disciplinas.
-          self.cursor.execute("SELECT id, disciplina FROM disciplinas")
-          return self.cursor.fetchall()
+          self.cursor.execute("SELECT id, disciplina FROM disciplinas ORDER BY id")
+          return self.cursor.fetchall() #Retorna o resultado da pesquisa
     
 
     def editarDisciplina(self, id_disciplina, novoNome, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario):
-    
-    #Atualiza todos os campos da disciplina identificada por id_disciplina.
+        #Atualiza todos os campos da disciplina identificada por id_disciplina.
         sql = """
         UPDATE disciplinas
         SET disciplina = ?, tipo_media = ?, carga_horaria = ?, qtd_presenca = ?, local = ?, horario = ?
         WHERE id = ?;
         """
         valores = (novoNome, novoTipoMedia, novaCargaHoraria, nova_qtd_presenca, novoLocal, novoHorario, id_disciplina)
-        self.cursor.execute(sql, valores)
+        self.cursor.execute(sql, valores) #Executa o SQLite
         self.con.commit()
 
             
@@ -125,23 +122,28 @@ class DB_connect():
     def marcarPresenca(self, id: int, valor: int) -> None:
         #Atualiza a quantidade de presença para uma disciplina específica.
         self.cursor.execute("SELECT qtd_presenca FROM disciplinas WHERE id=?", (id,))
-        qtd_presenca = self.cursor.fetchall()[0][0]
+        qtd_presenca = self.cursor.fetchall()[0][0] #Recebe a quantida de presença
 
+        #Impede que a variavel receba valores negativos
         if qtd_presenca + valor >= 0:
             qtd_presenca += valor
 
+        #Execução do código SQLite:
         self.cursor.execute("UPDATE disciplinas SET qtd_presenca=? WHERE id=?;", (qtd_presenca, id,))
         self.con.commit()
 
 
     def novaAnotacao(self, id_disciplina: int, anotacao: str) -> None:
         #Adiciona uma nova anotação
-        self.cursor.execute("SELECT 1 FROM anotacoes WHERE id_disciplina = ?", (id_disciplina,))
-        existe = self.cursor.fetchone()
-        if existe:
-            print("Já existe uma anotação para esta disciplina.")
-            return "Já existe uma anotação para esta disciplina."
         try:
+            self.cursor.execute("SELECT 1 FROM anotacoes WHERE id_disciplina = ?", (id_disciplina,)) 
+            existe = self.cursor.fetchone()
+            print(existe)
+            
+            if existe:
+                print("Já existe uma anotação para esta disciplina.")
+                return "Já existe uma anotação para esta disciplina."
+       
             self.cursor.execute("INSERT INTO anotacoes(id_disciplina, anotacao) VALUES (?, ?);", (id_disciplina, anotacao,))
             self.con.commit()
         except TypeError as e:
@@ -256,10 +258,13 @@ if __name__ == "__main__":
     #db.novaDisciplina(disciplina="História", tipoMedia="aritmetica", cargaHoraria=25 , horario="10:00", local="Sala-A1")
     #db.removerDisciplina("História")
     #print(retorno)
-    db.marcarPresenca(1, -460)
+    #db.marcarPresenca(1, -460)
     #db.novaAnotacao("Matematica", "")
     #db.addNotas("Matematica", 8.5)
     #db.editarDisciplina("Matematica", novaMedia=6.5)
+    
+    
+    print(db.listarDisciplinas()[0][0])
 
     
     

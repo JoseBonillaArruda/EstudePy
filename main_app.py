@@ -1,6 +1,5 @@
 #Pacote nativos
 import sys
-import os
 #pacotes terceiros
 from PySide6.QtWidgets import *
 from PySide6.QtCore import QTime
