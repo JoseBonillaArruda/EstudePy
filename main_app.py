@@ -60,7 +60,7 @@ class MainWindow(QMainWindow):
     def reg_nova_disciplina(self):
         disciplina = self.ui.novdiscinomelineEdit.text()
         carga = self.ui.novdiscicargahoraspinBox.value()
-        horario = f'{self.ui.novdiscidiacomboBox.currentText()} {self.ui.novdiscihorariotimeEdit.time().toString('hh:mm')}'
+        horario = f"{self.ui.novdiscidiacomboBox.currentText()} {self.ui.novdiscihorariotimeEdit.time().toString('hh:mm')}"
         local = self.ui.novdiscilocallineEdit.text()
         tipomedia = self.ui.novdiscitipomediacomboBox.currentText()
         db.novaDisciplina(disciplina,tipomedia,carga,horario,local)
@@ -93,7 +93,7 @@ class MainWindow(QMainWindow):
         else:
             self.disci_id_atual = self.lista_ID[self.ui.listDiscicomboBox.currentIndex()-1][0]
             disci = db.getDisciplinaPorId(self.disci_id_atual)
-            disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f'{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%']
+            disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f"{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%"]
             self.ui.discipresencatableWidget.setRowCount(1)
             self.ui.discipresencatableWidget.setColumnCount(3)
             self.ui.discipresencatableWidget.setVerticalHeaderLabels([''])
@@ -206,7 +206,7 @@ class MainWindow(QMainWindow):
 
     def marcpres_page(self):
         disci = db.getDisciplinaPorId(self.disci_id_atual)
-        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f'{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%']
+        disci_pres = [disci.get('carga_horaria'),disci.get('qtd_presenca'),f"{(disci.get('qtd_presenca')/disci.get('carga_horaria')*100):.2f}%"]
         self.ui.marcprestableWidget.setRowCount(1)
         self.ui.marcprestableWidget.setColumnCount(3)
         self.ui.marcprestableWidget.setHorizontalHeaderLabels(['Carga Horária', 'Presenças', 'Precentual'])
