@@ -27,7 +27,8 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(929, 444)
+        MainWindow.resize(1000, 650)
+        MainWindow.setMinimumSize(980, 450)
         MainWindow.setDockNestingEnabled(False)
         MainWindow.setDockOptions(QMainWindow.AllowTabbedDocks|QMainWindow.AnimatedDocks|QMainWindow.ForceTabbedDocks)
         self.centralwidget = QWidget(MainWindow)
